@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://excel-customer-orders-tracker.vercel.app/sitemap.xml
