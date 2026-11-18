@@ -2,34 +2,62 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="تنظيم بيانات العملاء والطلبات والمبيعات في ملف Excel واضح وسهل الاستخدام للمشروعات الصغيرة.">
-<title>تنظيم أعمالك | Excel Customer & Orders Tracker</title>
+<title>تنظيم أعمالك | قوالب Excel وتقارير الأعمال</title>
+<meta name="description" content="خدمات رقمية للمشروعات الصغيرة: قوالب Excel لمتابعة العملاء والطلبات والمبيعات، تنظيم البيانات، ولوحات مؤشرات وتقارير أعمال عملية.">
+<meta name="keywords" content="قالب Excel, متابعة العملاء, متابعة الطلبات, إدارة المبيعات, تقارير Excel, لوحة مؤشرات, تنظيم بيانات, المشروعات الصغيرة">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://excel-customer-orders-tracker.vercel.app/">
+<meta property="og:type" content="website"><meta property="og:locale" content="ar_SA">
+<meta property="og:title" content="تنظيم أعمالك | حلول Excel للمشروعات الصغيرة">
+<meta property="og:description" content="نظم العملاء والطلبات والمبيعات بتقارير وقوالب Excel عملية.">
+<meta property="og:url" content="https://excel-customer-orders-tracker.vercel.app/">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"تنظيم أعمالك","url":"https://excel-customer-orders-tracker.vercel.app/","email":"ma102030405033@gmail.com","description":"خدمات رقمية وقوالب Excel لتنظيم بيانات العملاء والطلبات والمبيعات."}
+</script>
 <style>
 :root{--navy:#14243a;--teal:#167c80;--gold:#c6a66b;--ink:#263548;--muted:#687789;--paper:#f5f7fa;--line:#e3e9ef}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Tahoma,Arial,sans-serif;line-height:1.8}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:Tahoma,Arial,sans-serif;line-height:1.8}
 header{background:linear-gradient(125deg,#14243a,#1c4056);color:white;padding:26px max(6vw,20px) 72px}
-nav{display:flex;justify-content:space-between;align-items:center;gap:16px}.brand{font-weight:800;letter-spacing:.3px}.tag{color:#d8c49c;font-size:13px}
+nav{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.brand{font-weight:800;letter-spacing:.3px}.tag{color:#d8c49c;font-size:13px}
+nav a{color:#fff;text-decoration:none;font-size:13px;margin-inline-start:14px}
 .hero{max-width:1080px;margin:50px auto 0}.eyebrow{color:#d8c49c;font-size:14px}.hero h1{font-size:clamp(30px,5vw,52px);line-height:1.25;margin:10px 0 18px;max-width:760px}.hero p{color:#e0e8ef;max-width:680px;font-size:18px}
 main{max-width:1080px;margin:-36px auto 60px;padding:0 18px}.panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:30px;box-shadow:0 14px 40px #14243a12}
-.grid{display:grid;grid-template-columns:1.4fr .8fr;gap:22px}.features{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:20px}.feature{background:#f7f9fb;border:1px solid var(--line);border-radius:13px;padding:15px}.feature b{display:block;color:var(--navy);margin-bottom:4px}.price{background:#f7f5ef;border:1px solid #e9dfca;border-radius:16px;padding:24px;text-align:center}.price strong{font-size:42px;color:var(--navy);display:block;line-height:1.3}.price small{color:var(--muted)}.btn{display:block;text-decoration:none;background:var(--teal);color:white;padding:14px 18px;border-radius:11px;font-weight:bold;margin-top:18px}.muted{color:var(--muted);font-size:13px}.section{margin-top:24px}.section h2{color:var(--navy);font-size:22px}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.step{padding:16px;border:1px solid var(--line);border-radius:12px;background:#fff}.step span{color:var(--teal);font-weight:bold}footer{text-align:center;color:var(--muted);font-size:12px;padding:25px}
-@media(max-width:760px){.grid{grid-template-columns:1fr}.features{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.hero{margin-top:32px}.panel{padding:22px}}
+.grid{display:grid;grid-template-columns:1.4fr .8fr;gap:22px}.features{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:20px}.feature{background:#f7f9fb;border:1px solid var(--line);border-radius:13px;padding:15px}.feature b{display:block;color:var(--navy);margin-bottom:4px}.price{background:#f7f5ef;border:1px solid #e9dfca;border-radius:16px;padding:24px;text-align:center}.price strong{font-size:42px;color:var(--navy);display:block;line-height:1.3}.price small{color:var(--muted)}.btn{display:inline-block;text-decoration:none;background:var(--teal);color:white;padding:12px 18px;border-radius:11px;font-weight:bold;margin-top:12px;border:0}.btn.secondary{background:var(--navy)}.muted{color:var(--muted);font-size:13px}.section{margin-top:24px}.section h2{color:var(--navy);font-size:22px}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.step{padding:16px;border:1px solid var(--line);border-radius:12px;background:#fff}.step span{color:var(--teal);font-weight:bold}
+.services{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.service{border:1px solid var(--line);border-radius:14px;padding:20px;background:#fff}.service h3{margin:0 0 8px;color:var(--navy)}.service p{margin:0 0 8px}.service .price-note{font-weight:bold;color:var(--teal);font-size:14px}
+.faq details{padding:14px 0;border-bottom:1px solid var(--line)}.faq summary{font-weight:bold;color:var(--navy);cursor:pointer}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:25px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.features,.services{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.hero{margin-top:32px}.panel{padding:22px}}
 </style></head>
 <body>
-<header><nav><div class="brand">تنظيم أعمالك</div><div class="tag">حلول عملية للمشروعات الصغيرة</div></nav>
-<section class="hero"><div class="eyebrow">خدمة رقمية • تسليم ملف Excel</div><h1>رتّب طلباتك وتابع عملاءك من ملف واحد.</h1><p>ملف Excel عملي يساعدك على تسجيل الطلبات، متابعة حالة كل طلب، معرفة المبالغ المحصلة والمتبقية، ورؤية ملخص واضح لأداء نشاطك.</p></section></header>
-<main><div class="grid">
-<section class="panel"><h2>ماذا تتضمن الخدمة؟</h2><p>نخصص قالب متابعة بسيطاً وفق اسم نشاطك وطريقة عملك، دون تعقيد أو برامج إضافية.</p>
+<header><nav><div><div class="brand">تنظيم أعمالك</div><div class="tag">حلول عملية للمشروعات الصغيرة</div></div><div><a href="#services">الخدمات</a><a href="#how">طريقة العمل</a><a href="#faq">الأسئلة الشائعة</a></div></nav>
+<section class="hero"><div class="eyebrow">خدمات رقمية • قوالب وتقارير أعمال</div><h1>نظّم أعمالك، وتابع عملاءك وطلباتك من مكان واحد.</h1><p>أدوات Excel عملية تساعد أصحاب المشروعات الصغيرة على متابعة الطلبات والمبيعات والمدفوعات، وتنظيم البيانات واتخاذ قرارات أوضح.</p><a class="btn" href="#services">استعرض الخدمات</a></section></header>
+<main>
+<div class="grid">
+<section class="panel"><h2>قالب متابعة العملاء والطلبات</h2><p>ابدأ بقالب Excel عملي، ويمكن تخصيصه وفق اسم نشاطك وطريقة عملك دون الحاجة إلى برامج إضافية.</p>
 <div class="features">
 <div class="feature"><b>سجل العملاء والطلبات</b><span>رقم الطلب، العميل، وسيلة التواصل، المنتج أو الخدمة.</span></div>
 <div class="feature"><b>حالات واضحة</b><span>جديد، قيد التنفيذ، مكتمل، وملغي.</span></div>
 <div class="feature"><b>متابعة مالية</b><span>قيمة الطلب، المحصل، والمتبقي تلقائياً.</span></div>
 <div class="feature"><b>لوحة مؤشرات</b><span>إجماليات الطلبات والحالات ونسبة الإنجاز.</span></div>
 </div></section>
-<aside class="price"><div class="muted">سعر الإطلاق</div><strong>$5</strong><small>دولار أمريكي • دفعة واحدة</small>
-<a class="btn" href="https://www.paypal.com/ncp/payment/PLB-RZSYZYZQVGAQ" target="_blank" rel="noopener noreferrer">اطلب الخدمة وادفع عبر PayPal</a>
-<p class="muted">يبدأ تنفيذ الطلب بعد تأكيد وصول الدفعة فعلياً. احتفظ بإيصال PayPal وأرسل تفاصيل نشاطك بعد الدفع.</p></aside>
+<aside class="price"><div class="muted">سعر القالب القياسي</div><strong>$5</strong><small>دولار أمريكي • دفعة واحدة</small>
+<a class="btn" href="https://www.paypal.com/ncp/payment/PLB-RZSYZYZQVGAQ" target="_blank" rel="noopener noreferrer">اطلب القالب وادفع عبر PayPal</a>
+<p class="muted">هذا الرابط مخصص للقالب القياسي بقيمة 5 دولارات. يبدأ التنفيذ بعد التحقق من وصول الدفعة.</p></aside>
 </div>
-<section class="panel section"><h2>طريقة العمل</h2><div class="steps"><div class="step"><span>01</span><br>ادفع قيمة الخدمة عبر PayPal.</div><div class="step"><span>02</span><br>أرسل اسم نشاطك والحقول التي تريد متابعتها.</div><div class="step"><span>03</span><br>نخصص الملف ونسلمه بعد مراجعة التفاصيل.</div></div></section>
-<section class="section muted">ملاحظة: الخدمة مخصصة للقالب القياسي. أي طلب يتضمن معالجة بيانات حساسة أو تكاملاً مع أنظمة خارجية يحتاج اتفاقاً منفصلاً. لا ترسل كلمات مرور أو بيانات بطاقات الدفع.</section>
-</main><footer>© 2026 تنظيم أعمالك • خدمة رقمية مستقلة</footer>
+<section class="panel section" id="services"><h2>خدماتنا الرقمية</h2><p class="muted">اختر الخدمة المناسبة. الخدمات المخصصة تُسعّر بعد معرفة حجم البيانات والمتطلبات.</p>
+<div class="services">
+<article class="service"><h3>قوالب Excel لمتابعة العملاء والطلبات</h3><p>سجل منظم، حالات طلبات، متابعة مبالغ، ولوحة مؤشرات أساسية.</p><div class="price-note">القالب القياسي: $5</div><a class="btn" href="https://www.paypal.com/ncp/payment/PLB-RZSYZYZQVGAQ" target="_blank" rel="noopener noreferrer">شراء القالب القياسي</a></article>
+<article class="service"><h3>تنظيف وتنظيم بيانات Excel</h3><p>إزالة التكرارات، توحيد التنسيق، ترتيب الأعمدة، وتحسين قابلية استخدام الملف.</p><div class="price-note">عرض سعر حسب حجم الملف</div><a class="btn secondary" href="mailto:ma102030405033@gmail.com?subject=طلب%20تنظيف%20بيانات%20Excel">اطلب عرض سعر</a></article>
+<article class="service"><h3>تقارير المبيعات ومؤشرات الأداء</h3><p>تلخيص المبيعات والطلبات والتحصيل، وإعداد مؤشرات واضحة تساعد على متابعة الأداء.</p><div class="price-note">عرض سعر حسب المتطلبات</div><a class="btn secondary" href="mailto:ma102030405033@gmail.com?subject=طلب%20تقرير%20مبيعات%20ومؤشرات">اطلب عرض سعر</a></article>
+<article class="service"><h3>لوحات متابعة الأعمال والمخزون</h3><p>تصميم جداول متابعة مبسطة للمخزون والمهام والعمليات اليومية.</p><div class="price-note">عرض سعر حسب نطاق العمل</div><a class="btn secondary" href="mailto:ma102030405033@gmail.com?subject=طلب%20لوحة%20متابعة%20أعمال">اطلب عرض سعر</a></article>
+</div></section>
+<section class="panel section" id="how"><h2>طريقة العمل</h2><div class="steps"><div class="step"><span>01</span><br>اختر القالب القياسي أو أرسل تفاصيل الخدمة المطلوبة.</div><div class="step"><span>02</span><br>نراجع المتطلبات ونؤكد السعر والمدة قبل البدء.</div><div class="step"><span>03</span><br>يبدأ التنفيذ بعد تأكيد الدفع، ثم تتم مراجعة الملف وتسليمه.</div></div></section>
+<section class="panel section faq" id="faq"><h2>الأسئلة الشائعة</h2>
+<details><summary>هل القالب القياسي مناسب لأي نشاط؟</summary><p>يمكن استخدامه في أنشطة متعددة لمتابعة العملاء والطلبات. أما الحقول أو العمليات الخاصة فتحتاج تخصيصاً منفصلاً.</p></details>
+<details><summary>هل سعر 5 دولارات يشمل جميع الخدمات؟</summary><p>لا. السعر يخص قالب متابعة العملاء والطلبات القياسي فقط. تنظيف البيانات والتقارير ولوحات المتابعة المخصصة تُسعّر بعد مراجعة التفاصيل.</p></details>
+<details><summary>متى يتم تسليم العمل؟</summary><p>بعد تأكيد الدفع واستلام متطلبات واضحة. يتم الاتفاق على المدة للخدمات المخصصة قبل بدء التنفيذ.</p></details>
+</section>
+<section class="section muted">لا ترسل كلمات مرور أو بيانات بطاقات الدفع أو بيانات شخصية حساسة. أرسل نسخة منزوعة البيانات الحساسة عند طلب مراجعة ملف.</section>
+</main><footer>© 2026 تنظيم أعمالك • خدمات رقمية مستقلة</footer>
 </body></html>
