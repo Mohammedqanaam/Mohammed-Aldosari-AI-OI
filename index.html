@@ -284,14 +284,14 @@ async function initializePayPal(){
     paypal.Buttons({
      style:{layout:"vertical",color:"gold",shape:"rect",label:"pay",height:45},
      createOrder:async()=>{
-      const r=await fetch("/api/paypal/create-order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({templateId:"cv"})});
+      const payload=await window.CVResume.getPaymentPayload();\n      const r=await fetch("/api/paypal/create-order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({templateId:"cv",...payload})});
       const d=await r.json();if(!r.ok||!d.id)throw new Error(d.error||"تعذر إنشاء طلب الدفع.");return d.id;
      },
      onApprove:async(data)=>{
       try{
        const r=await fetch("/api/paypal/capture-order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({orderID:data.orderID,templateId:"cv"})});
        const d=await r.json();if(!r.ok||!d.paid)throw new Error(d.error||"لم يتم تأكيد الدفع.");
-       window.CVResume.unlock(d.orderID);
+       window.CVResume.unlock(d.orderID,d.resumeHash);
       }catch(e){const el=document.getElementById("cv-payment-status");el.textContent=e.message;el.className="status err";}
      },
      onCancel:()=>{const el=document.getElementById("cv-payment-status");el.textContent="تم إلغاء الدفع. يمكنك المحاولة مجدداً.";el.className="status warn";},
