@@ -44,7 +44,8 @@ module.exports = async (req, res) => {
     }
 
     const sectionSpecs = [
-      ["domain","المجال المهني","Professional Field"],\n      ["summary","الملخص المهني","Professional Summary"],
+      ["domain","المجال المهني","Professional Field"],
+      ["summary","الملخص المهني","Professional Summary"],
       ["education","التعليم والمؤهلات","Education"],
       ["experience","الخبرات العملية","Work Experience"],
       ["projects","المشاريع والتدريب العملي","Projects & Practical Training"],
