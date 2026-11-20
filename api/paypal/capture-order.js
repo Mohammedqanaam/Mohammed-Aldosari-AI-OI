@@ -8,7 +8,10 @@ module.exports = async (req, res) => {
     if (typeof orderID !== "string" || !/^[A-Z0-9-]{8,80}$/i.test(orderID)) {
       return res.status(400).json({ error: "Invalid PayPal order." });
     }
-    const captured = await paypalRequest("/v2/checkout/orders/" + encodeURIComponent(orderID) + "/capture", { method: "POST", body: "{}" });
+    let captured = await paypalRequest("/v2/checkout/orders/" + encodeURIComponent(orderID), { method: "GET" });
+    if (captured.status !== "COMPLETED") {
+      captured = await paypalRequest("/v2/checkout/orders/" + encodeURIComponent(orderID) + "/capture", { method: "POST", body: "{}" });
+    }
     const unit = captured.purchase_units && captured.purchase_units[0];
     const capture = unit && unit.payments && unit.payments.captures && unit.payments.captures[0];
     const amount = capture && capture.amount;
