@@ -158,7 +158,7 @@
     if (phone && !/^\+?[0-9\s()-]{8,20}$/.test(phone)) { $("cv-contact-phone").focus(); alert("تحقق من صيغة رقم الجوال."); return; }
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { $("cv-contact-email").focus(); alert("تحقق من صيغة البريد الإلكتروني."); return; }
     lang = $("cv-language").value;
-    answers = {nameAr:name,role:$("cv-target-role").value.trim(),domain:$("cv-domain").selectedOptions[0].textContent,phone,email};
+    answers = {nameAr:name,role:$("cv-target-role").value.trim(),domain:$("cv-domain").selectedOptions[0].textContent,phone,email,contact:[phone,email].filter(Boolean).join(" | ")};
     window.cvLeadId = null;
     if (phone || email) {
       const saveButton=$("cv-start"); saveButton.disabled=true; saveButton.textContent="جارٍ حفظ بيانات التواصل...";
