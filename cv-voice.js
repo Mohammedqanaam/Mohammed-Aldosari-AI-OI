@@ -142,6 +142,7 @@
     $("cv-payment-status").textContent = say("المعاينة متاحة. التنزيل مقفل حتى تأكيد الدفع.","Preview is ready. Downloads remain locked until payment is confirmed.");
   }
   function startInterview() {
+    document.body.classList.remove("cv-paid");
     const name = $("cv-name-ar").value.trim();
     const domain = $("cv-domain").value;
     if (!/[\u0600-\u06FF]/.test(name) || name.split(/\s+/).length < 2) {
@@ -214,6 +215,7 @@
         return;
       }
       paid=true;paidOrder=orderID;
+      document.body.classList.add("cv-paid");
       $("cv-edit").disabled=true;
       $("cv-download-docx").disabled=false;$("cv-download-docx").textContent=say("تنزيل السيرة الذاتية Word","Download ATS Resume (Word)");
       $("cv-print-pdf").disabled=false;$("cv-print-pdf").textContent=say("طباعة / حفظ PDF","Print / Save PDF");
