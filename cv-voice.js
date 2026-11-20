@@ -155,8 +155,8 @@
     if ($("cv-marketing-phone").checked && phone) marketingChannels.push("sms_whatsapp");
     const marketingConsent=marketingChannels.length>0;
     if ((phone || email) && !dataConsent) { $("cv-data-consent").focus(); alert("يرجى الموافقة على معالجة بيانات التواصل لحفظها، أو اترك بيانات التواصل فارغة للمتابعة دون حفظها."); return; }
-    if (phone && !/^\\+?[0-9\\s()-]{8,20}$/.test(phone)) { $("cv-contact-phone").focus(); alert("تحقق من صيغة رقم الجوال."); return; }
-    if (email && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) { $("cv-contact-email").focus(); alert("تحقق من صيغة البريد الإلكتروني."); return; }
+    if (phone && !/^\+?[0-9\s()-]{8,20}$/.test(phone)) { $("cv-contact-phone").focus(); alert("تحقق من صيغة رقم الجوال."); return; }
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { $("cv-contact-email").focus(); alert("تحقق من صيغة البريد الإلكتروني."); return; }
     lang = $("cv-language").value;
     answers = {nameAr:name,role:$("cv-target-role").value.trim(),domain:$("cv-domain").selectedOptions[0].textContent,phone,email};
     window.cvLeadId = null;
