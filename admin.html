@@ -28,17 +28,17 @@ button{border:0;border-radius:10px;padding:12px 18px;background:var(--navy);colo
 <p id="loginError" class="error" aria-live="polite"></p>
 </section>
 <section id="dashboard" class="hidden">
-<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><div><h1 style="margin:0;color:var(--navy)">العملاء والطلبات</h1><p class="muted">تظهر بيانات التواصل التي وافق أصحابها على حفظها فقط.</p></div><button id="logout" class="secondary">تسجيل الخروج</button></div>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><div><h1 style="margin:0;color:var(--navy)">العملاء والطلبات</h1><p class="muted">بيانات العملاء وحالة طلباتهم.</p></div><button id="logout" class="secondary">تسجيل الخروج</button></div>
 <div class="stats">
 <div class="stat"><small>إجمالي العملاء</small><b id="total">0</b></div>
 <div class="stat"><small>طلبات بدأت</small><b id="started">0</b></div>
 <div class="stat"><small>سلات متروكة تقديرياً</small><b id="abandoned">0</b></div>
-<div class="stat"><small>موافقات تسويقية</small><b id="marketing">0</b></div>
+
 </div>
 <div class="card">
-<div class="toolbar"><input id="search" placeholder="بحث بالاسم أو الجوال أو البريد"><select id="filter"><option value="all">كل الحالات</option><option value="started">بدأ التسجيل</option><option value="abandoned">متروكة تقديرياً</option><option value="paid">مدفوعة</option><option value="marketing">موافقة تسويقية</option></select><button id="refresh" class="secondary">تحديث</button></div>
-<div class="tablewrap"><table><thead><tr><th>الاسم</th><th>الجوال</th><th>البريد</th><th>الحالة</th><th>التسويق</th><th>تاريخ التسجيل</th></tr></thead><tbody id="rows"></tbody></table></div>
-<p id="empty" class="muted hidden">لا توجد سجلات مطابقة.</p><p class="muted">لا ترسل أي رسالة تسويقية إلا للعملاء الذين لديهم موافقة تسويقية موثقة وسارية. السلة المتروكة هنا تقدير تشغيلي وليست إذناً بالتسويق.</p>
+<div class="toolbar"><input id="search" placeholder="بحث بالاسم أو الجوال أو البريد"><select id="filter"><option value="all">كل الحالات</option><option value="started">بدأ التسجيل</option><option value="abandoned">متروكة تقديرياً</option><option value="paid">مدفوعة</option></select><button id="refresh" class="secondary">تحديث</button></div>
+<div class="tablewrap"><table><thead><tr><th>الاسم</th><th>الجوال</th><th>البريد</th><th>الحالة</th><th>تاريخ التسجيل</th></tr></thead><tbody id="rows"></tbody></table></div>
+<p id="empty" class="muted hidden">لا توجد سجلات مطابقة.</p><p class="muted">السلة المتروكة تقدير تشغيلي مبني على عدم استكمال الطلب، وليست دليلاً على إتمام الشراء.</p>
 </div>
 </section>
 </main>
@@ -46,15 +46,14 @@ button{border:0;border-radius:10px;padding:12px 18px;background:var(--navy);colo
 const $=id=>document.getElementById(id);let leads=[];
 const date=v=>v?new Date(v).toLocaleString("ar-SA"):"—";
 async function load(){const r=await fetch("/api/admin/leads",{cache:"no-store"});if(r.status===401){$("dashboard").classList.add("hidden");$("login").classList.remove("hidden");return}const d=await r.json();if(!r.ok)throw Error(d.error||"تعذر التحميل");leads=d.leads||[];render()}
-function render(){const marketing=leads.filter(x=>x.marketing_consent);$("total").textContent=leads.length;$("started").textContent=leads.filter(x=>x.pipeline_status==="started").length;$("abandoned").textContent=leads.filter(x=>x.pipeline_status==="abandoned").length;$("marketing").textContent=marketing.length;
+function render(){$("total").textContent=leads.length;$("started").textContent=leads.filter(x=>x.pipeline_status==="started").length;$("abandoned").textContent=leads.filter(x=>x.pipeline_status==="abandoned").length;
 const q=$("search").value.trim().toLowerCase(),f=$("filter").value;
-const list=leads.filter(x=>{const hay=[x.name_ar,x.phone,x.email].join(" ").toLowerCase();return (!q||hay.includes(q))&&(f==="all"|| (f==="marketing"?x.marketing_consent:x.pipeline_status===f))});
-$("rows").innerHTML=list.map(x=>{const status=x.pipeline_status==="abandoned"?"سلة متروكة تقديرياً":x.pipeline_status==="paid"?"مدفوع":"بدأ التسجيل";const cls=x.pipeline_status==="abandoned"?"abandoned":x.pipeline_status==="paid"?"paid":"";return "<tr><td>"+esc(x.name_ar)+"</td><td>"+esc(x.phone||"—")+"</td><td>"+esc(x.email||"—")+"</td><td><span class='pill "+cls+"'>"+status+"</span></td><td>"+(x.marketing_consent?"<span class='consent'>موافق: "+esc((x.marketing_channels||[]).join("، "))+"</span>":"غير موافق")+"</td><td>"+date(x.created_at)+"</td><td>"+(x.marketing_consent?"<button class=\"secondary\" data-revoke=\""+esc(x.id)+"\">إلغاء الموافقة</button>":"—")+"</td></tr>"}).join("");$("empty").classList.toggle("hidden",list.length>0)}
+const list=leads.filter(x=>{const hay=[x.name_ar,x.phone,x.email].join(" ").toLowerCase();return (!q||hay.includes(q))&&(f==="all"||x.pipeline_status===f)});
+$("rows").innerHTML=list.map(x=>{const status=x.pipeline_status==="abandoned"?"سلة متروكة تقديرياً":x.pipeline_status==="paid"?"مدفوع":"بدأ التسجيل";const cls=x.pipeline_status==="abandoned"?"abandoned":x.pipeline_status==="paid"?"paid":"";return "<tr><td>"+esc(x.name_ar)+"</td><td>"+esc(x.phone)+"</td><td>"+esc(x.email)+"</td><td><span class='pill "+cls+"'>"+status+"</span></td><td>"+date(x.created_at)+"</td></tr>"}).join("");$("empty").classList.toggle("hidden",list.length>0)}
 function esc(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 $("loginForm").addEventListener("submit",async e=>{e.preventDefault();$("loginError").textContent="";try{const r=await fetch("/api/admin/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:$("password").value})});const d=await r.json();if(!r.ok)throw Error(d.error||"تعذر تسجيل الدخول");$("login").classList.add("hidden");$("dashboard").classList.remove("hidden");$("password").value="";await load()}catch(e){$("loginError").textContent=e.message}});
 $("logout").onclick=async()=>{await fetch("/api/admin/logout",{method:"POST"});$("dashboard").classList.add("hidden");$("login").classList.remove("hidden")};
 $("refresh").onclick=()=>load().catch(e=>alert(e.message));$("search").oninput=render;$("filter").onchange=render;
-$("rows").addEventListener("click",async e=>{const btn=e.target.closest("[data-revoke]");if(!btn)return;if(!confirm("تأكيد إلغاء الموافقة التسويقية لهذا العميل؟"))return;btn.disabled=true;try{const r=await fetch("/api/admin/revoke-marketing",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:btn.dataset.revoke})});const d=await r.json();if(!r.ok)throw Error(d.error||"تعذر التحديث");await load()}catch(err){alert(err.message);btn.disabled=false}});
 
 </script>
 </body></html>
