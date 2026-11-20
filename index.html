@@ -53,6 +53,12 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
 .cv-voice .cv-progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#c6a15b,#167c80);transition:width .2s}
 .cv-voice .cv-mic{background:#167c80}
 .cv-voice .cv-small{font-size:12px;color:#65758b}
+.cv-consents{display:grid;gap:10px;margin:16px 0;padding:14px;border:1px solid #e4e9ef;border-radius:12px;background:#f8fafc}
+.cv-consents label{display:flex;gap:9px;align-items:flex-start;font-size:12px;color:#425268;line-height:1.7}
+.cv-consents input{margin-top:5px;accent-color:#167c80;flex:0 0 auto}
+.cv-consents a{color:#167c80;text-decoration:underline}
+.cv-voice input[type=tel],.cv-voice input[type=email]{width:100%;border:1px solid #cfd8e3;border-radius:10px;background:#fff;padding:12px;font:inherit;color:var(--ink)}
+
 .cv-voice .cv-output{white-space:pre-wrap;background:#fff;border:1px solid #dce3eb;border-radius:12px;padding:18px;line-height:1.9;min-height:140px}
 .cv-voice .cv-hidden{display:none!important}
 .cv-voice #cv-preview{user-select:text}
@@ -127,6 +133,14 @@ body.cv-paid .cv-voice .cv-output{-webkit-user-select:text;user-select:text}
   <label class="fieldlabel" for="cv-name-ar">الاسم الكامل بالعربية (إلزامي)</label><input id="cv-name-ar" type="text" autocomplete="name" maxlength="90" placeholder="مثال: محمد عبدالعزيز الدوسري" required><p class="cv-small">اكتب الاسم كما تريد ظهوره في السيرة الذاتية. لن تبدأ المقابلة قبل إدخاله.</p>
   <label class="fieldlabel" for="cv-domain">مجال التخصص</label><select id="cv-domain"><option value="">اختر المجال المهني</option><option value="admin">الإدارة والموارد البشرية</option><option value="business">الأعمال والمبيعات والتسويق</option><option value="finance">المالية والمحاسبة</option><option value="it">تقنية المعلومات والبرمجة</option><option value="engineering">الهندسة</option><option value="medical">الطب والرعاية الصحية</option><option value="education">التعليم والتدريب</option><option value="hospitality">الفندقة والسياحة</option><option value="legal">القانون والامتثال</option><option value="operations">التشغيل وسلاسل الإمداد</option><option value="other">مجال آخر</option></select>
   <label class="fieldlabel" for="cv-target-role">المسمى الوظيفي المستهدف (اختياري)</label><input id="cv-target-role" type="text" maxlength="100" placeholder="مثال: محلل بيانات / مهندس مدني / أخصائي موارد بشرية">
+  <label class="fieldlabel" for="cv-contact-phone">رقم الجوال (اختياري)</label><input id="cv-contact-phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="+9665xxxxxxxx">
+  <label class="fieldlabel" for="cv-contact-email">البريد الإلكتروني (اختياري)</label><input id="cv-contact-email" type="email" autocomplete="email" maxlength="160" placeholder="name@example.com">
+  <div class="cv-consents">
+   <label><input id="cv-data-consent" type="checkbox"> أوافق على معالجة بيانات التواصل التي أدخلتها لحفظ تقدمي وإدارة طلب السيرة الذاتية والتواصل بشأنه، وفق <a href="/privacy.html" target="_blank" rel="noopener">سياسة الخصوصية</a>.</label>
+   <label><input id="cv-marketing-consent" type="checkbox"> أوافق بشكل اختياري على تلقي العروض والتحديثات التسويقية عبر وسائل التواصل التي أدخلتها. يمكنني إلغاء الاشتراك في أي وقت.</label>
+  </div>
+  <p class="cv-small">لن نستخدم بياناتك للتسويق ما لم تختر الموافقة التسويقية. لا ترفع وثائق الهوية أو معلومات صحية حساسة لهذا الغرض.</p>
+
   <b style="color:#142b4a">مقابلة صوتية خطوة بخطوة</b>
   <p class="cv-small">سيُطلب منك التحدث عن مؤهلك وخبراتك والأنظمة التي تعرفها ومهاراتك ولغاتك. يمكنك الإجابة بالصوت أو الكتابة، وتجاوز أي سؤال لا ينطبق عليك.</p>
   <label class="fieldlabel" for="cv-language">لغة المقابلة</label><select id="cv-language"><option value="ar-SA">العربية</option><option value="en-US">English</option></select>
