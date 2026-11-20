@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
   res.setHeader("Cache-Control", "no-store");
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
   try {
-    const { templateId, resumeHash } = req.body || {};
+    const { templateId, resumeHash, leadId } = req.body || {};
     if (!Object.prototype.hasOwnProperty.call(PRODUCTS, templateId) || (templateId === "cv" && (typeof resumeHash !== "string" || !/^[a-f0-9]{64}$/i.test(resumeHash)))) {
       return res.status(400).json({ error: "Please select a valid template." });
     }
@@ -36,6 +36,7 @@ module.exports = async (req, res) => {
         intent: "CAPTURE",
         purchase_units: [{
           reference_id: templateId,
+          ...(templateId === "cv" && typeof leadId === "string" && /^[0-9a-f-]{36}$/i.test(leadId) ? { invoice_id: leadId } : {}),
           custom_id: templateId === "cv" ? "cv-" + resumeHash.toLowerCase() : templateId,
           description: PRODUCTS[templateId],
           amount: { currency_code: "USD", value: "5.00" }
