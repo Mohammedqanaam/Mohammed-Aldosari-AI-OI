@@ -85,6 +85,24 @@ const TEMPLATES = {
     sheet: "Quality Log | سجل الجودة",
     headers: ["Audit Date | تاريخ التدقيق","Process | العملية","Checklist Item | بند الفحص","Result | النتيجة","Risk Level | مستوى المخاطر","Finding | الملاحظة","Corrective Action | الإجراء التصحيحي","Owner | المسؤول","Due Date | الاستحقاق","Status | الحالة"],
     rows: 400
+  },
+  reservations: {
+    title: "HOTEL RESERVATIONS TRACKER | متابعة الحجوزات الفندقية",
+    sheet: "Reservations | الحجوزات",
+    headers: ["Booking ID | رقم الحجز","Booking Date | تاريخ الحجز","Guest Name | اسم النزيل","Mobile | الجوال","Hotel / Branch | الفندق / الفرع","Check-in | الوصول","Check-out | المغادرة","Nights | الليالي","Room Type | نوع الغرفة","Channel | قناة الحجز","Status | الحالة","Room Revenue | قيمة الحجز","Paid | المدفوع","Balance | المتبقي","Agent | الموظف","Next Action | الإجراء القادم","Notes | ملاحظات"],
+    rows: 700
+  },
+  guestservice: {
+    title: "GUEST SERVICE & COMPLAINTS | خدمة النزلاء والشكاوى",
+    sheet: "Guest Cases | حالات النزلاء",
+    headers: ["Case ID | رقم الحالة","Received Date | تاريخ الاستلام","Guest Name | اسم النزيل","Mobile | الجوال","Hotel / Branch | الفندق / الفرع","Case Type | نوع الحالة","Priority | الأولوية","Assigned To | المسؤول","SLA Due | مهلة المعالجة","Status | الحالة","Resolution | الحل","Closed Date | تاريخ الإغلاق","Guest Feedback | تقييم النزيل"],
+    rows: 500
+  },
+  callcenter: {
+    title: "CALL CENTER PERFORMANCE | أداء مركز الاتصال",
+    sheet: "Agent KPIs | مؤشرات الموظفين",
+    headers: ["Date | التاريخ","Agent | الموظف","Shift | الوردية","Calls Offered | المكالمات الواردة","Calls Answered | المكالمات المجابة","Missed Calls | المكالمات الفائتة","Bookings | الحجوزات","Conversion % | نسبة التحويل","Avg Handle Time | متوسط المعالجة","Quality Score | جودة الخدمة","Notes | ملاحظات"],
+    rows: 500
   }
 };
 
