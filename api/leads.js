@@ -19,8 +19,9 @@ module.exports = async (req, res) => {
       body: JSON.stringify({
         name_ar: nameAr, phone: phone || null, email: email || null,
         data_consent: true, data_consent_at: now, data_consent_version: "2026-11-20-v1",
-        marketing_consent: body.marketingConsent === true,
-        marketing_consent_at: body.marketingConsent === true ? now : null,
+        marketing_consent: Array.isArray(body.marketingChannels) && body.marketingChannels.some(x => ["email","sms_whatsapp"].includes(x)),
+        marketing_channels: Array.isArray(body.marketingChannels) ? body.marketingChannels.filter(x => ["email","sms_whatsapp"].includes(x)) : [],
+        marketing_consent_at: Array.isArray(body.marketingChannels) && body.marketingChannels.some(x => ["email","sms_whatsapp"].includes(x)) ? now : null,
         source: "cv-builder", status: "started", last_activity_at: now
       })
     });
