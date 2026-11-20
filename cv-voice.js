@@ -179,7 +179,7 @@
   $("cv-prev").addEventListener("click",()=>move(-1));
   $("cv-skip").addEventListener("click",()=>{$("cv-answer").value="";move(1);});
   $("cv-edit").addEventListener("click",()=>{$("cv-result").classList.add("cv-hidden");$("cv-interview").classList.remove("cv-hidden");idx=qs.length-1;render();$("cv-interview").scrollIntoView({behavior:"smooth"});});
-  $("cv-restart").addEventListener("click",()=>{if(speechSynthesis)speechSynthesis.cancel();$("cv-result").classList.add("cv-hidden");$("cv-interview").classList.add("cv-hidden");$("cv-intro").classList.remove("cv-hidden");paid=false;});
+  $("cv-restart").addEventListener("click",()=>{document.body.classList.remove("cv-paid");if(speechSynthesis)speechSynthesis.cancel();$("cv-result").classList.add("cv-hidden");$("cv-interview").classList.add("cv-hidden");$("cv-intro").classList.remove("cv-hidden");paid=false;});
   $("cv-download-docx").addEventListener("click",async()=>{
     if(!paid || !paidOrder) return;
     const btn=$("cv-download-docx");btn.disabled=true;btn.textContent=say("جارٍ التحقق وتجهيز Word...","Verifying and preparing Word...");
