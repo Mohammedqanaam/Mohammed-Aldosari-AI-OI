@@ -46,7 +46,7 @@ button{border:0;border-radius:10px;padding:12px 18px;background:var(--navy);colo
 <script>
 const $=id=>document.getElementById(id);let leads=[],supportThreads=[],activeSupportId=null;
 const date=v=>v?new Date(v).toLocaleString("ar-SA"):"—";
-async function load(){const r=await fetch("/api/admin/leads",{cache:"no-store"});if(r.status===401){$("dashboard").classList.add("hidden");$("login").classList.remove("hidden");return}const d=await r.json();if(!r.ok)throw Error(d.error||"تعذر التحميل");leads=d.leads||[];render();$("supportInbox").classList.remove("hidden");loadSupport().catch(e=>console.warn(e))}
+async function load(){$("supportInbox").classList.remove("hidden");try{const r=await fetch("/api/admin/leads",{cache:"no-store"});if(r.status===401){$("dashboard").classList.add("hidden");$("supportInbox").classList.add("hidden");$("login").classList.remove("hidden");return}const d=await r.json();if(!r.ok)throw Error(d.error||"تعذر تحميل العملاء");leads=d.leads||[];render()}catch(e){$("rows").innerHTML="<tr><td colspan=5>"+esc(e.message)+"</td></tr>"}try{await loadSupport()}catch(e){$("supportThreads").textContent="قاعدة بيانات الدعم غير متصلة: "+e.message}}
 function render(){$("total").textContent=leads.length;$("started").textContent=leads.filter(x=>x.pipeline_status==="started").length;$("abandoned").textContent=leads.filter(x=>x.pipeline_status==="abandoned").length;
 const q=$("search").value.trim().toLowerCase(),f=$("filter").value;
 const list=leads.filter(x=>{const hay=[x.name_ar,x.phone,x.email].join(" ").toLowerCase();return (!q||hay.includes(q))&&(f==="all"||x.pipeline_status===f)});
