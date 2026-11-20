@@ -150,7 +150,10 @@
     }
     if (!domain) { $("cv-domain").focus(); alert("يرجى اختيار مجال التخصص أولاً."); return; }
     const phone=$("cv-contact-phone").value.trim(), email=$("cv-contact-email").value.trim();
-    const dataConsent=$("cv-data-consent").checked, marketingConsent=$("cv-marketing-consent").checked;
+    const dataConsent=$("cv-data-consent").checked, marketingChannels=[];
+    if ($("cv-marketing-email").checked && email) marketingChannels.push("email");
+    if ($("cv-marketing-phone").checked && phone) marketingChannels.push("sms_whatsapp");
+    const marketingConsent=marketingChannels.length>0;
     if ((phone || email) && !dataConsent) { $("cv-data-consent").focus(); alert("يرجى الموافقة على معالجة بيانات التواصل لحفظها، أو اترك بيانات التواصل فارغة للمتابعة دون حفظها."); return; }
     if (phone && !/^\\+?[0-9\\s()-]{8,20}$/.test(phone)) { $("cv-contact-phone").focus(); alert("تحقق من صيغة رقم الجوال."); return; }
     if (email && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) { $("cv-contact-email").focus(); alert("تحقق من صيغة البريد الإلكتروني."); return; }
@@ -160,7 +163,7 @@
     if (phone || email) {
       const saveButton=$("cv-start"); saveButton.disabled=true; saveButton.textContent="جارٍ حفظ بيانات التواصل...";
       try {
-        const saved=await fetch("/api/leads",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({nameAr:name,phone,email,dataConsent,marketingConsent,source:"cv-builder"})});
+        const saved=await fetch("/api/leads",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({nameAr:name,phone,email,dataConsent,marketingConsent,marketingChannels,source:"cv-builder"})});
         const result=await saved.json();
         if(!saved.ok) throw new Error(result.error||"تعذر حفظ بيانات التواصل.");
         window.cvLeadId=result.id||null;
