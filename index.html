@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تنظيم أعمالك | قوالب Excel الذكية</title>
+<meta name="description" content="اختر قالب Excel حسب مجال عملك، ارفع ملفك لمعاينة البيانات واكتشاف الأعمدة، ثم اطلب القالب المناسب.">
+<meta name="keywords" content="قوالب Excel, قوالب مبيعات, خدمات إدارية, متابعة العملاء, تقارير Excel, لوحة مؤشرات">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://excel-customer-orders-tracker.vercel.app/">
+<meta property="og:type" content="website"><meta property="og:locale" content="ar_SA">
+<meta property="og:title" content="تنظيم أعمالك | قوالب Excel حسب تخصصك">
+<meta property="og:description" content="حدد مجال عملك، ارفع ملفك، استعرض العينة، ثم اطلب القالب المناسب.">
+<style>
+:root{--navy:#142b4a;--navy2:#203d60;--gold:#c6a15b;--gold2:#f5eedc;--ink:#243447;--muted:#65758b;--paper:#f4f6f9;--line:#dce3eb;--white:#fff;--teal:#167c80;--green:#24613d;--red:#9c2424}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:Tahoma,Arial,sans-serif;line-height:1.75}
+header{background:linear-gradient(125deg,#10243d,#203d60);color:#fff;padding:22px max(5vw,18px) 68px}
+nav{max-width:1120px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}.brand{font-size:20px;font-weight:800}.brand small{display:block;color:#dfc996;font-size:11px;font-weight:400}.navlinks a{color:#eaf0f6;text-decoration:none;margin-inline-start:18px;font-size:13px}
+.hero{max-width:1120px;margin:54px auto 0}.eyebrow{color:#e1c991;font-size:13px}.hero h1{font-size:clamp(30px,5vw,48px);line-height:1.3;margin:10px 0 14px;max-width:760px}.hero p{max-width:690px;color:#dce6ef;font-size:17px;margin:0}
+main{max-width:1120px;margin:-34px auto 60px;padding:0 18px}.panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:25px;box-shadow:0 12px 36px #142b4a0d}.section{margin-top:22px}.section h2{color:var(--navy);font-size:22px;margin:0 0 6px}.sub{color:var(--muted);font-size:13px;margin:0 0 18px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.step{border:1px solid var(--line);border-radius:12px;padding:13px;background:#fbfcfe}.step b{display:block;color:var(--navy)}.num{color:var(--gold);font-weight:800;font-size:12px}
+.fieldlabel{font-weight:700;color:var(--navy);font-size:14px;display:block;margin:15px 0 8px}
+select,input[type=file],input[type=text],input[type=email]{width:100%;border:1px solid #cfd8e3;border-radius:10px;background:#fff;padding:12px;font:inherit;color:var(--ink)}
+select:focus,input:focus{outline:2px solid #d7c08f;border-color:var(--gold)}
+.categorygrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.cat{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fff;cursor:pointer;text-align:right;transition:.15s}
+.cat:hover,.cat.active{border-color:var(--gold);background:#fcf9f1;box-shadow:0 0 0 2px #c6a15b22}
+.cat strong{display:block;color:var(--navy);font-size:14px}.cat span{font-size:12px;color:var(--muted)}
+.upload{border:2px dashed #bdc9d6;border-radius:14px;padding:22px;text-align:center;background:#fafbfd}
+.upload p{margin:5px 0;color:var(--muted);font-size:13px}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.row>*{flex:1}
+.btn{border:0;border-radius:10px;background:var(--navy);color:white;padding:12px 18px;font:inherit;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn.gold{background:var(--gold);color:#172b43}.btn.teal{background:var(--teal)}.btn:disabled{opacity:.45;cursor:not-allowed}
+.note{border-radius:11px;background:#f4f7fa;border:1px solid var(--line);padding:12px;color:var(--muted);font-size:12px;margin-top:12px}
+.status{display:none;margin-top:14px;border-radius:10px;padding:11px 13px;font-size:13px}.status.ok{display:block;background:#e6f3ea;color:var(--green)}.status.warn{display:block;background:#fff2d9;color:#835700}.status.err{display:block;background:#fbe6e6;color:var(--red)}
+.previewwrap{overflow:auto;border:1px solid var(--line);border-radius:12px;margin-top:14px}
+table{border-collapse:collapse;width:100%;min-width:540px;font-size:12px}th{background:var(--navy2);color:white;text-align:right;padding:10px;white-space:nowrap}td{padding:9px;border-bottom:1px solid var(--line);white-space:nowrap}tr:nth-child(even) td{background:#f7f9fb}
+.previewhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:20px}.pill{display:inline-block;border-radius:30px;padding:4px 10px;background:var(--gold2);color:#755a25;font-size:11px;font-weight:700}
+.checkout{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:start}.pricebox{background:#f9f6ee;border:1px solid #e8dcc0;border-radius:14px;padding:20px;text-align:center}.price{font-size:42px;font-weight:800;color:var(--navy);line-height:1.2}.muted{font-size:12px;color:var(--muted)}
+.lock{border:1px solid #e7d9b9;background:#fcf9f2;border-radius:12px;padding:15px;margin-top:14px}.lock b{color:var(--navy)}
+footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
+@media(max-width:800px){.steps{grid-template-columns:repeat(2,1fr)}.categorygrid{grid-template-columns:repeat(2,1fr)}.checkout{grid-template-columns:1fr}}
+@media(max-width:480px){header{padding-bottom:58px}.hero{margin-top:34px}.panel{padding:18px}.navlinks{width:100%}.navlinks a{margin-inline-end:0;margin-inline-start:12px}.steps{grid-template-columns:1fr 1fr}}
+
+/* Voice CV builder */
+.cv-voice{margin-top:22px;border:1px solid #d9e1ea;border-radius:18px;background:linear-gradient(135deg,#fff,#f7f9fc);padding:25px;box-shadow:0 12px 36px #142b4a0d}
+.cv-voice .cv-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.cv-voice .cv-kicker{color:#a47d37;font-size:12px;font-weight:800;letter-spacing:.5px}
+.cv-voice .cv-card{border:1px solid #dce3eb;background:#fff;border-radius:14px;padding:18px;margin-top:16px}
+.cv-voice .cv-question{font-size:21px;line-height:1.5;color:#142b4a;font-weight:800;margin:6px 0 12px}
+.cv-voice .cv-answer{width:100%;min-height:105px;border:1px solid #cfd8e3;border-radius:12px;padding:13px;font:inherit;resize:vertical}
+.cv-voice .cv-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+.cv-voice .cv-progress{height:7px;background:#e9edf2;border-radius:20px;overflow:hidden;margin-top:14px}
+.cv-voice .cv-progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#c6a15b,#167c80);transition:width .2s}
+.cv-voice .cv-mic{background:#167c80}
+.cv-voice .cv-small{font-size:12px;color:#65758b}
+.cv-voice .cv-output{white-space:pre-wrap;background:#fff;border:1px solid #dce3eb;border-radius:12px;padding:18px;line-height:1.9;min-height:140px}
+.cv-voice .cv-hidden{display:none!important}
+@media(max-width:600px){.cv-voice{padding:17px}.cv-voice .cv-question{font-size:18px}}
+
+</style>
+</head>
+<body>
+<header><nav><div class="brand">تنظيم أعمالك<small>PREMIUM EXCEL TEMPLATES</small></div><div class="navlinks"><a href="#catalog">القوالب</a><a href="#customize">خصص ملفك</a><a href="#process">طريقة العمل</a><a href="#voice-cv">السيرة الذاتية الصوتية</a></div></nav>
+<section class="hero"><div class="eyebrow">قوالب أعمال عملية • مبيعات • خدمات إدارية</div><h1>القالب المناسب لطبيعة عملك، يبدأ من بياناتك.</h1><p>اختر تخصصك، ارفع ملف Excel أو CSV لمراجعة عينة من بياناتك، وشاهد كيف يمكن تنظيمها قبل طلب القالب النهائي.</p></section></header>
+<main>
+<section class="panel" id="process"><h2>كيف تعمل الخدمة؟</h2><p class="sub">مسار واضح من اختيار التخصص حتى استلام الملف.</p><div class="steps">
+<div class="step"><span class="num">01 — SELECT</span><b>اختر تخصصك</b><small>مبيعات أو خدمات إدارية.</small></div>
+<div class="step"><span class="num">02 — UPLOAD</span><b>ارفع ملفك</b><small>Excel أو CSV لمراجعة البيانات.</small></div>
+<div class="step"><span class="num">03 — PREVIEW</span><b>استعرض العينة</b><small>معاينة الأعمدة والصفوف الأولى.</small></div>
+<div class="step"><span class="num">04 — CHECKOUT</span><b>الدفع والتسليم</b><small>يفتح التحميل بعد التحقق من الدفع.</small></div>
+</div></section>
+
+<section class="panel section" id="why-us"><h2>لماذا تنظيم أعمالك؟</h2><p class="sub">قوالب عملية مصممة لتناسب واقع المنشآت الصغيرة والمتوسطة والفرق التشغيلية في الخليج.</p>
+<div class="categorygrid">
+<div class="cat" style="cursor:default"><strong>عربي + English</strong><span>مصطلحات ثنائية اللغة في نفس القالب.</span></div>
+<div class="cat" style="cursor:default"><strong>جاهز للتطبيق</strong><span>أوراق منظمة، قوائم، فلاتر ومؤشرات قابلة للتحديث.</span></div>
+<div class="cat" style="cursor:default"><strong>خصوصية أولاً</strong><span>معاينة الملف وتحليله محلياً داخل المتصفح.</span></div>
+<div class="cat" style="cursor:default"><strong>تخصص خليجي</strong><span>الحجوزات الفندقية، خدمة النزلاء ومراكز الاتصال.</span></div>
+</div>
+<div class="note"><b>منهجنا:</b> لا نبيع شكل جدول فقط؛ نركز على وضوح سير العمل، متابعة المسؤوليات، قياس النتائج، وتقليل العمل اليدوي. القوالب القياسية مستقلة عن ملفاتك المرفوعة؛ خدمة تحويل بياناتك أو تخصيص قالبك تخضع لمراجعة منفصلة.</div>
+</section>
+<section class="panel section" id="catalog"><h2>1. اختر مجال الاختصاص</h2><p class="sub">حدد المجال ثم اختر نوع القالب المطلوب.</p>
+<div class="categorygrid" id="categories">
+<button class="cat active" data-cat="sales"><strong>المبيعات</strong><span>Sales Management</span></button>
+<button class="cat" data-cat="admin"><strong>الخدمات الإدارية</strong><span>Administrative Services</span></button>
+<button class="cat" data-cat="finance"><strong>المالية والمحاسبة</strong><span>Finance & Accounting</span></button>
+<button class="cat" data-cat="operations"><strong>التشغيل والمخزون</strong><span>Operations & Inventory</span></button>
+<button class="cat" data-cat="hospitality"><strong>الضيافة والحجوزات</strong><span>Hospitality & Reservations</span></button>
+</div>
+<label class="fieldlabel" for="templateType">نوع القالب | Template Type</label>
+<select id="templateType">
+<option value="customers">متابعة العملاء والطلبات — Customer & Order Tracker</option>
+<option value="sales">متابعة المبيعات والأهداف — Sales & Targets</option>
+<option value="leads">إدارة العملاء المحتملين — CRM & Leads</option>
+<option value="commissions">العمولات وأداء الموظفين — Commissions & Team KPIs</option>
+</select>
+<div class="note" id="templateDesc">سجل عملاء، حالات طلبات، مبالغ محصلة ومتأخرة، ولوحة مؤشرات أساسية.</div>
+</section>
+
+<section class="panel section" id="customize"><h2>2. ارفع ملفك لمراجعته</h2><p class="sub">ارفع نسخة XLSX أو XLS أو CSV. تتم قراءة الملف داخل متصفحك لعرض عينة أولية فقط.</p>
+<div class="upload"><div style="font-size:28px;color:#c6a15b">⇧</div><b>اسحب الملف هنا أو اختره من جهازك</b><p>الحد الأقصى 10 MB • XLSX, XLS, CSV</p><input id="fileInput" type="file" accept=".xlsx,.xls,.csv" style="margin-top:12px"></div>
+<div class="row" style="margin-top:12px"><div><label class="fieldlabel" for="sheetSelect">ورقة العمل</label><select id="sheetSelect" disabled><option>ارفع ملفاً أولاً</option></select></div><div><label class="fieldlabel" for="email">البريد الإلكتروني لاستلام الطلب</label><input id="email" type="email" placeholder="name@example.com"></div></div>
+<div id="fileStatus" class="status"></div>
+<div class="previewhead"><b>معاينة البيانات | Data Preview</b><span class="pill" id="rowCount">لا يوجد ملف</span></div>
+<div id="preview" class="note">ستظهر هنا عينة من أول 8 صفوف بعد رفع الملف.</div>
+<div class="row" style="margin-top:15px"><button class="btn teal" id="analyzeBtn" disabled>تحليل العينة وتحديد الحقول</button><button class="btn" id="clearBtn" type="button">إزالة الملف</button></div>
+<div id="analysisStatus" class="status"></div>
+<div class="note">الخصوصية: لا يتم إرسال محتوى الملف إلى الخادم في هذه المرحلة. لا ترفع ملفات تحتوي على كلمات مرور أو بيانات بطاقات أو معلومات شخصية حساسة. ارفع نسخة تجريبية أو منزوعة البيانات الحساسة.</div>
+</section>
+
+
+<section class="cv-voice" id="voice-cv">
+ <div class="cv-top"><div><div class="cv-kicker">VOICE CV BUILDER</div><h2 style="margin:4px 0;color:#142b4a">أنشئ سيرتك الذاتية بالمقابلة الصوتية</h2><p class="sub" style="margin:0">تحدث بطريقتك، وسيطرح عليك المساعد أسئلة مرتبة ليجمع بيانات سيرتك الذاتية.</p></div><span class="pill">عربي / English</span></div>
+ <div class="cv-card" id="cv-intro">
+  <b style="color:#142b4a">مقابلة صوتية خطوة بخطوة</b>
+  <p class="cv-small">سيُطلب منك التحدث عن مؤهلك وخبراتك والأنظمة التي تعرفها ومهاراتك ولغاتك. يمكنك الإجابة بالصوت أو الكتابة، وتجاوز أي سؤال لا ينطبق عليك.</p>
+  <label class="fieldlabel" for="cv-language">لغة المقابلة</label><select id="cv-language"><option value="ar-SA">العربية</option><option value="en-US">English</option></select>
+  <div class="note">الخصوصية: التعرف على الصوت يتم عبر إمكانات المتصفح وقد يعتمد على خدمة المتصفح. لا يحفظ المتجر التسجيلات الصوتية. لا تدخل أرقام الهوية أو بيانات حساسة.</div>
+  <div class="cv-actions"><button class="btn gold" id="cv-start" type="button">ابدأ المقابلة الصوتية</button></div>
+ </div>
+ <div class="cv-card cv-hidden" id="cv-interview">
+  <div class="cv-top"><span class="pill" id="cv-step">السؤال 1</span><span class="cv-small" id="cv-progress-label">0%</span></div><div class="cv-progress"><span id="cv-progress-bar"></span></div>
+  <div class="cv-question" id="cv-question"></div><p class="cv-small" id="cv-hint">استمع للسؤال ثم تحدث أو اكتب إجابتك.</p>
+  <textarea class="cv-answer" id="cv-answer" placeholder="اكتب إجابتك هنا أو استخدم زر الميكروفون..."></textarea>
+  <div class="cv-actions"><button class="btn cv-mic" id="cv-listen" type="button">🎙️ ابدأ التحدث</button><button class="btn" id="cv-speak" type="button">استمع للسؤال</button><button class="btn gold" id="cv-next" type="button">حفظ ومتابعة</button><button class="btn" id="cv-skip" type="button" style="background:#65758b">تخطي</button></div>
+  <p class="cv-small" id="cv-voice-status" aria-live="polite">الميكروفون غير نشط.</p>
+ </div>
+ <div class="cv-card cv-hidden" id="cv-result"><div class="cv-top"><b style="color:#142b4a">مسودة سيرتك الذاتية</b><span class="pill">قابلة للمراجعة</span></div>
+  <p class="cv-small">راجع المعلومات وعدّلها قبل الطباعة. لا يضيف النظام مؤهلات أو خبرات لم تذكرها.</p><div class="cv-output" id="cv-preview"></div>
+  <div class="cv-actions"><button class="btn gold" id="cv-print" type="button">تحميل / طباعة PDF</button><button class="btn" id="cv-copy" type="button">نسخ السيرة</button><button class="btn" id="cv-restart" type="button">بدء مقابلة جديدة</button></div>
+ </div>
+</section>
+
+<section class="panel section" id="checkout"><h2>3. السعر والدفع</h2><p class="sub">القالب القياسي محدد بسعر 5 دولارات. تخصيص الملفات المرفوعة قد يتطلب عرض سعر بعد مراجعة نطاق العمل.</p>
+<div class="checkout"><div><div class="lock"><b>🔒 التحميل محمي</b><p class="muted">يُفتح الملف فقط بعد التحقق من حالة الدفع والمبلغ ومعرّف القالب من PayPal على الخادم.</p></div><div id="paymentStatus" class="status warn">لم يتم تأكيد أي دفعة لهذا الطلب.</div><p class="muted">يتم التحقق من عملية الدفع عبر خادم المتجر مباشرة مع PayPal قبل فتح رابط الملف. لا يكفي الرجوع من صفحة الدفع.</p></div>
+<aside class="pricebox"><div class="muted">STANDARD TEMPLATE</div><div class="price">$5</div><div class="muted">دفعة واحدة • USD</div><p style="font-size:13px" id="selectedProductName">القالب القياسي المحدد</p><div id="paypal-button-container"><button class="btn gold" id="payBtn" type="button" style="width:100%">جارٍ تجهيز الدفع الآمن…</button></div><p class="muted">القوالب القياسية بسعر موحد. التخصيص المتقدم وعمل ملفات من بياناتك له عرض سعر منفصل بعد المراجعة.</p><button class="btn" id="downloadBtn" disabled style="width:100%;margin-top:8px">🔒 التحميل بعد تأكيد الدفع</button></aside></div>
+</section>
+</main>
+<footer>© 2026 تنظيم أعمالك • Premium Excel Templates</footer>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="/cv-voice.js" defer></script>
+<script>
+(function(){
+const categoryTemplates={
+ sales:[
+  ["customers","متابعة العملاء والطلبات — Customer & Order Tracker","سجل عملاء، حالات طلبات، مبالغ محصلة ومتأخرة، ولوحة مؤشرات أساسية."],
+  ["sales","متابعة المبيعات والأهداف — Sales & Targets","المبيعات اليومية والشهرية، الأهداف، نسب الإنجاز، ومقارنة أداء الموظفين."],
+  ["leads","إدارة العملاء المحتملين — CRM & Leads","مصدر العميل، مرحلة الفرصة، قيمة الصفقة، المتابعة القادمة ومعدل التحويل."],
+  ["commissions","العمولات وأداء الموظفين — Commissions & Team KPIs","مبيعات كل موظف، المستهدف، العمولة، ونسب تحقيق الأهداف."]
+ ],
+ admin:[
+  ["tasks","إدارة المهام والمشاريع — Tasks & Projects","المهام، الأولويات، المسؤوليات، تواريخ الاستحقاق ونسب الإنجاز."],
+  ["hr","الموارد البشرية والحضور — HR & Attendance","بيانات الموظفين، الحضور، الغياب، الإجازات وساعات العمل."],
+  ["procurement","المشتريات والموردون — Procurement & Vendors","طلبات الشراء، الموردون، عروض الأسعار، حالة التوريد والاستلام."],
+  ["documents","متابعة المعاملات — Administrative Log","سجل المعاملات، أرقامها، تواريخها، المسؤول عنها وحالة الإجراء."]
+ ],
+ finance:[
+  ["budget","الميزانية والمصروفات — Budget & Expenses","الإيرادات والمصروفات، التصنيفات، الميزانية والفروقات."],
+  ["invoices","الفواتير والتحصيل — Invoices & Collections","الفواتير، تواريخ الاستحقاق، المدفوعات، والمتأخرات."],
+  ["cashflow","التدفق النقدي — Cash Flow","حركة النقد الداخلة والخارجة والتوقعات الشهرية."]
+ ],
+ operations:[
+  ["inventory","إدارة المخزون — Inventory Control","الأصناف، الكميات، حد إعادة الطلب، حركات المخزون والتنبيهات."],
+  ["maintenance","الصيانة والأصول — Maintenance & Assets","الأصول، بلاغات الصيانة، المسؤول، التكلفة والحالة."],
+  ["quality","الجودة والإجراءات — Quality & Operations","قوائم الفحص، الملاحظات، الإجراءات التصحيحية ومؤشرات التشغيل."]
+ ],
+ hospitality:[
+  ["reservations","إدارة الحجوزات الفندقية — Hotel Reservations","متابعة الحجوزات، الوصول والمغادرة، القنوات، حالات الحجز، الإيرادات والتحصيل."],
+  ["guestservice","خدمة النزلاء والشكاوى — Guest Service","الشكاوى والطلبات، الأولوية، المسؤول، مهلة SLA، الحل ورضا النزيل."],
+  ["callcenter","أداء مركز الاتصال — Call Center KPIs","المكالمات الواردة والمجابة والفائتة، الحجوزات، التحويل وأداء الموظفين."]
+ ]
+};
+const cats=document.querySelectorAll(".cat"),type=document.getElementById("templateType"),desc=document.getElementById("templateDesc");
+let currentCategory="sales",workbook=null,selectedFile=null,rows=[],headers=[],currentSheet="";
+function setCategory(cat){
+ currentCategory=cat;cats.forEach(b=>b.classList.toggle("active",b.dataset.cat===cat));
+ type.innerHTML="";categoryTemplates[cat].forEach(item=>{const o=document.createElement("option");o.value=item[0];o.textContent=item[1];o.dataset.desc=item[2];type.appendChild(o)});desc.textContent=type.options[0].dataset.desc;
+}
+cats.forEach(b=>b.addEventListener("click",()=>setCategory(b.dataset.cat)));
+type.addEventListener("change",()=>desc.textContent=type.selectedOptions[0].dataset.desc||"سيتم إعداد القالب حسب التخصص المحدد.");
+const input=document.getElementById("fileInput"),sheetSelect=document.getElementById("sheetSelect"),preview=document.getElementById("preview"),fileStatus=document.getElementById("fileStatus"),rowCount=document.getElementById("rowCount"),analyzeBtn=document.getElementById("analyzeBtn"),analysisStatus=document.getElementById("analysisStatus");
+function status(el,msg,kind){el.className="status "+kind;el.textContent=msg}
+function renderPreview(data){
+ rows=data||[];headers=(rows[0]||[]).map((x,i)=>String(x??"Column "+(i+1)));
+ if(!rows.length){preview.textContent="لم يتم العثور على بيانات في ورقة العمل.";return}
+ const shown=rows.slice(0,9),table=document.createElement("table"),thead=document.createElement("thead"),tr=document.createElement("tr");
+ headers.forEach(h=>{const th=document.createElement("th");th.textContent=h||"—";tr.appendChild(th)});thead.appendChild(tr);table.appendChild(thead);
+ const tbody=document.createElement("tbody");shown.slice(1).forEach(row=>{const r=document.createElement("tr");headers.forEach((_,i)=>{const td=document.createElement("td");td.textContent=String(row?.[i]??"");r.appendChild(td)});tbody.appendChild(r)});table.appendChild(tbody);
+ preview.innerHTML="";const wrap=document.createElement("div");wrap.className="previewwrap";wrap.appendChild(table);preview.appendChild(wrap);
+ rowCount.textContent=Math.max(0,rows.length-1)+" سجل • "+headers.length+" عمود";
+}
+async function readFile(file){
+ if(!file)return;if(file.size>10*1024*1024){status(fileStatus,"حجم الملف يتجاوز 10 MB. اختر ملفاً أصغر.","err");return}
+ if(!/\.(xlsx|xls|csv)$/i.test(file.name)){status(fileStatus,"صيغة الملف غير مدعومة. ارفع XLSX أو XLS أو CSV.","err");return}
+ selectedFile=file;status(fileStatus,"جارٍ قراءة الملف محلياً داخل المتصفح…","warn");
+ try{
+  if(!window.XLSX)throw new Error("تعذر تحميل مكتبة قراءة Excel. تحقق من اتصال الإنترنت ثم أعد المحاولة.");
+  const buf=await file.arrayBuffer();workbook=XLSX.read(buf,{type:"array",cellDates:true});
+  sheetSelect.innerHTML="";workbook.SheetNames.forEach(name=>{const o=document.createElement("option");o.value=name;o.textContent=name;sheetSelect.appendChild(o)});
+  sheetSelect.disabled=false;currentSheet=workbook.SheetNames[0];const data=XLSX.utils.sheet_to_json(workbook.Sheets[currentSheet],{header:1,defval:"",blankrows:false});renderPreview(data);analyzeBtn.disabled=false;status(fileStatus,"تمت قراءة الملف بنجاح. اختر ورقة العمل إن رغبت في تغييرها.","ok");analysisStatus.className="status";
+ }catch(e){workbook=null;selectedFile=null;status(fileStatus,e.message||"تعذر قراءة الملف.","err")}
+}
+input.addEventListener("change",e=>readFile(e.target.files[0]));
+sheetSelect.addEventListener("change",()=>{if(!workbook)return;currentSheet=sheetSelect.value;renderPreview(XLSX.utils.sheet_to_json(workbook.Sheets[currentSheet],{header:1,defval:"",blankrows:false}))});
+analyzeBtn.addEventListener("click",()=>{
+ if(!rows.length){status(analysisStatus,"لا توجد بيانات كافية للتحليل.","err");return}
+ const norm=headers.map(x=>x.toLowerCase()),groups={
+  name:["name","الاسم","العميل","customer","employee","الموظف","guest","النزيل"],
+  phone:["phone","mobile","الجوال","الهاتف","رقم التواصل"],
+  date:["date","التاريخ","created","تاريخ الطلب","تاريخ الحجز"],
+  amount:["amount","price","المبلغ","السعر","الإجمالي","total","revenue","الإيراد"],
+  status:["status","الحالة","مرحلة","stage"],
+  branch:["branch","الفرع","الفندق","hotel"],
+  booking:["booking","reservation","الحجز","رقم الحجز"],
+  arrival:["check-in","arrival","الوصول"],
+  departure:["check-out","departure","المغادرة"],
+  channel:["channel","القناة","المصدر"],
+  owner:["owner","agent","المسؤول","الموظف"],
+  target:["target","المستهدف","الهدف"]
+ };
+ const found=[];Object.entries(groups).forEach(([k,terms])=>{const idx=norm.findIndex(h=>terms.some(t=>h.includes(t)));if(idx>=0)found.push(k+" ← "+headers[idx])});
+ const body=rows.slice(1).filter(r=>r.some(v=>String(v??"").trim()!==""));
+ const blankByColumn=headers.map((h,i)=>({h,count:body.filter(r=>String(r?.[i]??"").trim()==="").length})).filter(x=>x.count>0);
+ const rowKeys=body.map(r=>JSON.stringify(r.map(v=>String(v??"").trim().toLowerCase())));
+ const duplicates=rowKeys.length-new Set(rowKeys).size;
+ const missing=blankByColumn.reduce((n,x)=>n+x.count,0);
+ const message=(found.length?"الحقول المكتشفة: "+found.join("، ")+". ":"")+
+ "السجلات: "+body.length+" • الأعمدة: "+headers.length+
+ " • خلايا فارغة: "+missing+" • صفوف مكررة بالكامل: "+duplicates+
+ (blankByColumn.length?" • أكثر الأعمدة نقصاً: "+blankByColumn.sort((a,b)=>b.count-a.count).slice(0,3).map(x=>x.h+" ("+x.count+")").join("، "):"")+
+ ". التحليل محلي داخل المتصفح؛ لم يتم رفع محتوى الملف.";
+ status(analysisStatus,message,"ok");
+});
+document.getElementById("clearBtn").addEventListener("click",()=>{input.value="";workbook=null;selectedFile=null;rows=[];headers=[];sheetSelect.innerHTML="<option>ارفع ملفاً أولاً</option>";sheetSelect.disabled=true;analyzeBtn.disabled=true;preview.textContent="ستظهر هنا عينة من أول 8 صفوف بعد رفع الملف.";rowCount.textContent="لا يوجد ملف";fileStatus.className="status";analysisStatus.className="status"});
+let verifiedOrderID=null;
+async function startCheckout(){
+ const email=document.getElementById("email").value.trim();
+ if(email&&!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)){status(fileStatus,"تحقق من صحة البريد الإلكتروني.","err");throw new Error("تحقق من صحة البريد الإلكتروني.");}
+ status(document.getElementById("paymentStatus"),"جارٍ إنشاء طلب دفع آمن…","warn");
+ const response=await fetch("/api/paypal/create-order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({templateId:type.value})});
+ const data=await response.json();
+ if(!response.ok||!data.id)throw new Error(data.error||"تعذر بدء الدفع.");
+ try{sessionStorage.setItem("template_request",JSON.stringify({category:currentCategory,type:type.value,email:email,fileName:selectedFile?.name||"",sheet:currentSheet,createdAt:new Date().toISOString()}))}catch(e){}
+ return data.id;
+}
+async function captureCheckout(orderID){
+ const response=await fetch("/api/paypal/capture-order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({orderID,templateId:type.value})});
+ const data=await response.json();
+ if(!response.ok||!data.paid)throw new Error(data.error||"لم يتم تأكيد الدفع.");
+ verifiedOrderID=data.orderID;
+ document.getElementById("downloadBtn").disabled=false;
+ document.getElementById("downloadBtn").textContent="تحميل القالب المدفوع";
+ status(document.getElementById("paymentStatus"),"تم التحقق من الدفع بنجاح. أصبح التحميل متاحاً لهذا القالب.","ok");
+}
+document.getElementById("downloadBtn").addEventListener("click",async()=>{
+ if(!verifiedOrderID)return;
+ const btn=document.getElementById("downloadBtn");btn.disabled=true;btn.textContent="جارٍ تجهيز ملفك…";
+ try{
+  const url="/api/download?orderID="+encodeURIComponent(verifiedOrderID)+"&templateId="+encodeURIComponent(type.value);
+  const response=await fetch(url);
+  if(!response.ok){const err=await response.json().catch(()=>({}));throw new Error(err.error||"تعذر التحقق من الدفع أو إنشاء الملف.");}
+  const blob=await response.blob();const a=document.createElement("a");const objectURL=URL.createObjectURL(blob);
+  a.href=objectURL;a.download="Gulf-"+type.value+"-Template.xlsx";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(objectURL);
+  btn.textContent="تم تجهيز التحميل";status(document.getElementById("paymentStatus"),"تم تجهيز ملف Excel الخاص بك.","ok");
+ }catch(e){btn.disabled=false;btn.textContent="إعادة محاولة التحميل";status(document.getElementById("paymentStatus"),e.message,"err");}
+});
+async function initializePayPal(){
+ const container=document.getElementById("paypal-button-container");
+ try{
+  const cfgRes=await fetch("/api/paypal/config",{cache:"no-store"});const cfg=await cfgRes.json();
+  if(!cfgRes.ok||!cfg.configured)throw new Error("يلزم إعداد بيانات PayPal في إعدادات Vercel قبل استقبال المدفوعات.");
+  const sdk=document.createElement("script");sdk.src="https://www.paypal.com/sdk/js?client-id="+encodeURIComponent(cfg.clientId)+"&currency=USD&intent=capture";
+  sdk.onload=()=>{
+   container.innerHTML="";
+   paypal.Buttons({
+    style:{layout:"vertical",color:"gold",shape:"rect",label:"pay",height:45},
+    createOrder:()=>startCheckout(),
+    onApprove:async(data)=>{try{await captureCheckout(data.orderID)}catch(e){status(document.getElementById("paymentStatus"),e.message,"err");}},
+    onCancel:()=>status(document.getElementById("paymentStatus"),"تم إلغاء عملية الدفع. يمكنك المحاولة مجدداً.","warn"),
+    onError:(err)=>{console.error(err);status(document.getElementById("paymentStatus"),"تعذر إكمال الدفع. حاول مرة أخرى أو تواصل مع الدعم.","err");}
+   }).render("#paypal-button-container");
+  };
+  sdk.onerror=()=>status(document.getElementById("paymentStatus"),"تعذر تحميل بوابة PayPal.","err");
+  document.head.appendChild(sdk);
+ }catch(e){
+  container.innerHTML='<button class="btn gold" type="button" disabled style="width:100%">الدفع غير متاح حالياً</button>';
+  status(document.getElementById("paymentStatus"),e.message,"warn");
+ }
+}
+initializePayPal();
+})();
+</script>
+</body></html>
