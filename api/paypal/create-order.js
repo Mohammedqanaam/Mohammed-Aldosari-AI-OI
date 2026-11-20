@@ -14,7 +14,10 @@ const PRODUCTS = {
   cashflow: "Cash Flow Tracker",
   inventory: "Inventory Control Tracker",
   maintenance: "Maintenance & Assets Tracker",
-  quality: "Quality & Operations Tracker"
+  quality: "Quality & Operations Tracker",
+  reservations: "Hotel Reservations & Front Office Tracker",
+  guestservice: "Guest Service & Complaints Tracker",
+  callcenter: "Call Center & Agent Performance Tracker"
 };
 
 module.exports = async (req, res) => {
