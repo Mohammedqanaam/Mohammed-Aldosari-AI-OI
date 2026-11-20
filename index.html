@@ -125,9 +125,16 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
   <div class="cv-actions"><button class="btn cv-mic" id="cv-listen" type="button">🎙️ ابدأ التحدث</button><button class="btn" id="cv-speak" type="button">استمع للسؤال</button><button class="btn" id="cv-prev" type="button" disabled>السابق</button><button class="btn gold" id="cv-next" type="button">حفظ ومتابعة</button><button class="btn" id="cv-skip" type="button" style="background:#65758b">تخطي</button></div>
   <p class="cv-small" id="cv-voice-status" aria-live="polite">الميكروفون غير نشط.</p>
  </div>
- <div class="cv-card cv-hidden" id="cv-result"><div class="cv-top"><b style="color:#142b4a">مسودة سيرتك الذاتية</b><span class="pill">قابلة للمراجعة</span></div>
-  <p class="cv-small">راجع المعلومات وعدّلها قبل الطباعة. لا يضيف النظام مؤهلات أو خبرات لم تذكرها.</p><div class="cv-output" id="cv-preview"></div>
-  <div class="cv-actions"><button class="btn gold" id="cv-print" type="button">تحميل / طباعة PDF</button><button class="btn" id="cv-copy" type="button">نسخ السيرة</button><button class="btn" id="cv-restart" type="button">بدء مقابلة جديدة</button></div>
+ <div class="cv-card cv-hidden" id="cv-result"><div class="cv-top"><b style="color:#142b4a">معاينة سيرتك الذاتية الكاملة</b><span class="pill">ATS-friendly preview</span></div>
+  <p class="cv-small">هذه معاينة كاملة قبل الشراء. راجع المعلومات؛ لا تُضاف أي خبرة أو شهادة أو مهارة لم تذكرها بنفسك. الحفظ والتنزيل والنسخ غير متاح قبل الدفع.</p>
+  <div class="cv-output" id="cv-preview"></div>
+  <div class="lock"><b>فتح النسخة النهائية</b><p class="muted">السعر 5 دولارات. بعد تأكيد PayPal يمكنك تنزيل ملف Word منسق بأسلوب ATS، وطباعته إلى PDF.</p>
+   <div id="cv-payment-status" class="status warn">المعاينة متاحة. التنزيل مقفل حتى تأكيد الدفع.</div>
+   <div id="cv-paypal-button-container"></div>
+   <button class="btn gold" id="cv-download-docx" type="button" disabled>🔒 تنزيل السيرة الذاتية Word</button>
+   <button class="btn" id="cv-print-pdf" type="button" disabled>🔒 طباعة / حفظ PDF</button>
+  </div>
+  <div class="cv-actions"><button class="btn" id="cv-edit" type="button">العودة لتعديل الإجابات</button><button class="btn" id="cv-restart" type="button">بدء مقابلة جديدة</button></div>
  </div>
 </section>
 
