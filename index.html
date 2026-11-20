@@ -74,6 +74,7 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
  body.cv-paid #cv-result{display:block!important;border:0;box-shadow:none}
 }
 .cv-voice .cv-output{-webkit-user-select:none;user-select:none}
+.journey-section{display:none!important}.journey-section.active{display:block!important}.journey-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.journey-choice{display:flex;flex-direction:column;align-items:flex-start;gap:9px;text-align:right;padding:22px;border:1px solid var(--line);border-radius:16px;background:#fff;color:var(--ink);cursor:pointer;min-height:150px}.journey-choice strong{font-size:18px;color:var(--navy)}.journey-choice span{font-size:13px;color:var(--muted);font-weight:400}.journey-choice b{margin-top:auto;color:var(--teal);font-size:13px}.cv-contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.cv-section-title{font-weight:800;color:var(--navy);margin:18px 0 6px}.cv-voice .cv-consents{margin:14px 0}.cv-voice .cv-consents label{font-size:13px}@media(max-width:600px){.journey-choices,.cv-contact-grid{grid-template-columns:1fr}}
 body.cv-paid .cv-voice .cv-output{-webkit-user-select:text;user-select:text}
 
 /* Refined storefront design */
@@ -94,10 +95,11 @@ input,select,textarea{border-radius:11px!important;border-color:#d6e0e8!importan
 </style>
 </head>
 <body>
-<header><nav><div class="brand">تنظيم أعمالك<small>PREMIUM EXCEL TEMPLATES</small></div><div class="navlinks"><a href="#catalog">القوالب</a><a href="#customize">تخصيص ملف</a><a href="#voice-cv">السيرة الذاتية</a></div></nav>
-<section class="hero"><div class="eyebrow">حلول رقمية عملية للأعمال</div><h1>أدوات أوضح. عمل أسرع.</h1><p>قوالب Excel احترافية وسيرة ذاتية ذكية، بخطوات بسيطة وواجهة عربية سهلة.</p></section></header>
+<header><nav><div class="brand">تنظيم أعمالك<small>PREMIUM EXCEL TEMPLATES</small></div><div class="navlinks"><a href="#journey-start">ابدأ رحلتك</a></div></nav>
+<section class="hero"><div class="eyebrow">خدمات رقمية عملية</div><h1>ابدأ من احتياجك.</h1><p>اختر الخدمة، ثم أكمل الخطوات المطلوبة فقط.</p></section></header>
 <main>
-<section class="panel section" id="catalog"><h2>1. اختر مجال الاختصاص</h2><p class="sub">حدد المجال ثم اختر نوع القالب المطلوب.</p>
+<section class="panel section" id="journey-start"><h2>ما الخدمة التي تحتاجها؟</h2><p class="sub">اختر مسارك للبدء. ستظهر لك الخطوات الخاصة بخدمتك فقط.</p><div class="journey-choices"><button class="journey-choice" type="button" data-journey="cv"><strong>إنشاء سيرة ذاتية</strong><span>مقابلة ذكية ثم معاينة ATS قبل الدفع</span><b>ابدأ الآن ←</b></button><button class="journey-choice" type="button" data-journey="excel"><strong>قوالب Excel وتخصيص الملفات</strong><span>حدد مجال العمل ثم اختر القالب أو ارفع ملفك</span><b>ابدأ الآن ←</b></button></div></section>
+<section class="panel section journey-section excel-journey" id="catalog"><h2>1. اختر مجال الاختصاص</h2><p class="sub">حدد المجال ثم اختر نوع القالب المطلوب.</p>
 <div class="categorygrid" id="categories">
 <button class="cat active" data-cat="sales"><strong>المبيعات</strong><span>Sales Management</span></button>
 <button class="cat" data-cat="admin"><strong>الخدمات الإدارية</strong><span>Administrative Services</span></button>
@@ -115,7 +117,7 @@ input,select,textarea{border-radius:11px!important;border-color:#d6e0e8!importan
 <div class="note" id="templateDesc">سجل عملاء، حالات طلبات، مبالغ محصلة ومتأخرة، ولوحة مؤشرات أساسية.</div>
 </section>
 
-<section class="panel section" id="customize"><h2>2. ارفع ملفك لمراجعته</h2><p class="sub">ارفع نسخة XLSX أو XLS أو CSV. تتم قراءة الملف داخل متصفحك لعرض عينة أولية فقط.</p>
+<section class="panel section journey-section excel-journey" id="customize"><h2>2. ارفع ملفك لمراجعته</h2><p class="sub">ارفع نسخة XLSX أو XLS أو CSV. تتم قراءة الملف داخل متصفحك لعرض عينة أولية فقط.</p>
 <div class="upload"><div style="font-size:28px;color:#c6a15b">⇧</div><b>اسحب الملف هنا أو اختره من جهازك</b><p>الحد الأقصى 10 MB • XLSX, XLS, CSV</p><input id="fileInput" type="file" accept=".xlsx,.xls,.csv" style="margin-top:12px"></div>
 <div class="row" style="margin-top:12px"><div><label class="fieldlabel" for="sheetSelect">ورقة العمل</label><select id="sheetSelect" disabled><option>ارفع ملفاً أولاً</option></select></div><div><label class="fieldlabel" for="email">البريد الإلكتروني لاستلام الطلب</label><input id="email" type="email" placeholder="name@example.com"></div></div>
 <div id="fileStatus" class="status"></div>
@@ -127,22 +129,16 @@ input,select,textarea{border-radius:11px!important;border-color:#d6e0e8!importan
 </section>
 
 
-<section class="cv-voice" id="voice-cv">
+<section class="cv-voice journey-section cv-journey" id="voice-cv">
  <div class="cv-top"><div><div class="cv-kicker">VOICE CV BUILDER</div><h2 style="margin:4px 0;color:#142b4a">أنشئ سيرتك الذاتية بالمقابلة الصوتية</h2><p class="sub" style="margin:0">تحدث بطريقتك، وسيطرح عليك المساعد أسئلة مرتبة ليجمع بيانات سيرتك الذاتية.</p></div><span class="pill">عربي / English</span></div>
  <div class="cv-card" id="cv-intro">
-  <label class="fieldlabel" for="cv-name-ar">الاسم الكامل بالعربية (إلزامي)</label><input id="cv-name-ar" type="text" autocomplete="name" maxlength="90" placeholder="مثال: محمد عبدالعزيز الدوسري" required><p class="cv-small">اكتب الاسم كما تريد ظهوره في السيرة الذاتية. لن تبدأ المقابلة قبل إدخاله.</p>
+  <label class="fieldlabel" for="cv-name-ar">الاسم الكامل</label><input id="cv-name-ar" type="text" autocomplete="name" maxlength="90" placeholder="اكتب اسمك الكامل" required><p class="cv-small">اكتب الاسم كما تريد ظهوره في السيرة الذاتية.</p>
   <label class="fieldlabel" for="cv-domain">مجال التخصص</label><select id="cv-domain"><option value="">اختر المجال المهني</option><option value="admin">الإدارة والموارد البشرية</option><option value="business">الأعمال والمبيعات والتسويق</option><option value="finance">المالية والمحاسبة</option><option value="it">تقنية المعلومات والبرمجة</option><option value="engineering">الهندسة</option><option value="medical">الطب والرعاية الصحية</option><option value="education">التعليم والتدريب</option><option value="hospitality">الفندقة والسياحة</option><option value="legal">القانون والامتثال</option><option value="operations">التشغيل وسلاسل الإمداد</option><option value="other">مجال آخر</option></select>
   <label class="fieldlabel" for="cv-target-role">المسمى الوظيفي المستهدف (اختياري)</label><input id="cv-target-role" type="text" maxlength="100" placeholder="مثال: محلل بيانات / مهندس مدني / أخصائي موارد بشرية">
-  <label class="fieldlabel" for="cv-contact-phone">رقم الجوال (اختياري)</label><input id="cv-contact-phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="+9665xxxxxxxx">
-  <label class="fieldlabel" for="cv-contact-email">البريد الإلكتروني (اختياري)</label><input id="cv-contact-email" type="email" autocomplete="email" maxlength="160" placeholder="name@example.com">
-  <div class="cv-consents">
-   <label><input id="cv-data-consent" type="checkbox"> أوافق على معالجة بيانات التواصل التي أدخلتها لحفظ تقدمي وإدارة طلب السيرة الذاتية والتواصل بشأنه، وفق <a href="/privacy.html" target="_blank" rel="noopener">سياسة الخصوصية</a>.</label>
-   <div style="display:grid;gap:7px"><span style="font-weight:700">موافقة تسويقية اختيارية — اختر القنوات:</span><label><input id="cv-marketing-email" type="checkbox"> البريد الإلكتروني</label><label><input id="cv-marketing-phone" type="checkbox"> رسائل الجوال / WhatsApp</label></div>
-  </div>
-  <p class="cv-small">لن نستخدم بياناتك للتسويق ما لم تختر الموافقة التسويقية. لا ترفع وثائق الهوية أو معلومات صحية حساسة لهذا الغرض.</p>
+  <div class="cv-contact-grid"><div><label class="fieldlabel" for="cv-contact-phone">رقم الجوال</label><input id="cv-contact-phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="05xxxxxxxx" required></div><div><label class="fieldlabel" for="cv-contact-email">البريد الإلكتروني</label><input id="cv-contact-email" type="email" autocomplete="email" maxlength="160" placeholder="name@example.com" required></div></div>
+  <div class="cv-consents"><label><input id="cv-data-consent" type="checkbox" required> أوافق على معالجة بياناتي بالقدر اللازم لإنشاء السيرة الذاتية وإدارة الطلب، وفق <a href="/privacy.html" target="_blank" rel="noopener">سياسة الخصوصية</a>.</label></div>
 
-  <b style="color:#142b4a">مقابلة صوتية خطوة بخطوة</b>
-  <p class="cv-small">سيُطلب منك التحدث عن مؤهلك وخبراتك والأنظمة التي تعرفها ومهاراتك ولغاتك. يمكنك الإجابة بالصوت أو الكتابة، وتجاوز أي سؤال لا ينطبق عليك.</p>
+  <div class="cv-section-title">بيانات المقابلة</div><p class="cv-small">أجب عن الأسئلة التي تظهر لك. يمكنك التحدث أو الكتابة وتجاوز ما لا ينطبق عليك.</p>
   <label class="fieldlabel" for="cv-language">لغة المقابلة</label><select id="cv-language"><option value="ar-SA">العربية</option><option value="en-US">English</option></select>
   <div class="note">الخصوصية: التعرف على الصوت يتم عبر إمكانات المتصفح وقد يعتمد على خدمة المتصفح. لا يحفظ المتجر التسجيلات الصوتية. لا تدخل أرقام الهوية أو بيانات حساسة.</div>
   <div class="cv-actions"><button class="btn gold" id="cv-start" type="button">ابدأ المقابلة الصوتية</button></div>
@@ -167,7 +163,7 @@ input,select,textarea{border-radius:11px!important;border-color:#d6e0e8!importan
  </div>
 </section>
 
-<section class="panel section" id="checkout"><h2>3. السعر والدفع</h2><p class="sub">القالب القياسي محدد بسعر 5 دولارات. تخصيص الملفات المرفوعة قد يتطلب عرض سعر بعد مراجعة نطاق العمل.</p>
+<section class="panel section journey-section excel-journey" id="checkout"><h2>3. السعر والدفع</h2><p class="sub">القالب القياسي محدد بسعر 5 دولارات. تخصيص الملفات المرفوعة قد يتطلب عرض سعر بعد مراجعة نطاق العمل.</p>
 <div class="checkout"><div><div class="lock"><b>🔒 التحميل محمي</b><p class="muted">يُفتح الملف فقط بعد التحقق من حالة الدفع والمبلغ ومعرّف القالب من PayPal على الخادم.</p></div><div id="paymentStatus" class="status warn">لم يتم تأكيد أي دفعة لهذا الطلب.</div><p class="muted">يتم التحقق من عملية الدفع عبر خادم المتجر مباشرة مع PayPal قبل فتح رابط الملف. لا يكفي الرجوع من صفحة الدفع.</p></div>
 <aside class="pricebox"><div class="muted">STANDARD TEMPLATE</div><div class="price">$5</div><div class="muted">دفعة واحدة • USD</div><p style="font-size:13px" id="selectedProductName">القالب القياسي المحدد</p><div id="paypal-button-container"><button class="btn gold" id="payBtn" type="button" style="width:100%">جارٍ تجهيز الدفع الآمن…</button></div><p class="muted">القوالب القياسية بسعر موحد. التخصيص المتقدم وعمل ملفات من بياناتك له عرض سعر منفصل بعد المراجعة.</p><button class="btn" id="downloadBtn" disabled style="width:100%;margin-top:8px">🔒 التحميل بعد تأكيد الدفع</button></aside></div>
 </section>
@@ -177,6 +173,9 @@ input,select,textarea{border-radius:11px!important;border-color:#d6e0e8!importan
 <script src="/cv-voice.js" defer></script>
 <script>
 (function(){
+const journeyButtons=document.querySelectorAll("[data-journey]");
+function openJourney(type){document.querySelectorAll(".journey-section").forEach(s=>s.classList.remove("active"));document.querySelector("#journey-start").classList.add("active");document.querySelectorAll("."+type+"-journey").forEach(s=>s.classList.add("active"));const first=document.querySelector("."+type+"-journey");if(first)first.scrollIntoView({behavior:"smooth",block:"start"});}
+journeyButtons.forEach(button=>button.addEventListener("click",()=>openJourney(button.dataset.journey)));
 const categoryTemplates={
  sales:[
   ["customers","متابعة العملاء والطلبات — Customer & Order Tracker","سجل عملاء، حالات طلبات، مبالغ محصلة ومتأخرة، ولوحة مؤشرات أساسية."],
