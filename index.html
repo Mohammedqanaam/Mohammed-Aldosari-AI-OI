@@ -60,6 +60,15 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
 .cv-voice input[type=text]{width:100%}
 @media(max-width:600px){.cv-voice{padding:17px}.cv-voice .cv-question{font-size:18px}}
 
+@media print{
+ body:not(.cv-paid){display:none!important}
+ body.cv-paid header,body.cv-paid main>section:not(#voice-cv),body.cv-paid footer{display:none!important}
+ body.cv-paid #voice-cv>*:not(#cv-result){display:none!important}
+ body.cv-paid #cv-result .lock,body.cv-paid #cv-result .cv-actions{display:none!important}
+ body.cv-paid #cv-result{display:block!important;border:0;box-shadow:none}
+}
+.cv-voice .cv-output{-webkit-user-select:none;user-select:none}
+body.cv-paid .cv-voice .cv-output{-webkit-user-select:text;user-select:text}
 </style>
 </head>
 <body>
