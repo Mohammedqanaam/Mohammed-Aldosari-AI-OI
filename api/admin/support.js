@@ -5,6 +5,11 @@ module.exports=async(req,res)=>{
  if(!verifySession(req)) return res.status(401).json({error:"Unauthorized"});
  try {
   if(req.method==="GET"){
+   const id=clean(req.query&&req.query.id,50);
+   if(id){
+    const messages=await supabase("support_messages?conversation_id=eq."+encodeURIComponent(id)+"&select=id,sender,body,created_at&order=created_at.asc");
+    return res.status(200).json({messages:messages||[]});
+   }
    const rows=await supabase("support_conversations?select=id,customer_name,phone,email,status,created_at,last_message_at&order=last_message_at.desc.nullslast&limit=300");
    return res.status(200).json({conversations:rows||[]});
   }
