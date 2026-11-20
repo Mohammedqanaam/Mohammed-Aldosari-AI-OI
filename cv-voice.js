@@ -141,7 +141,7 @@
     $("cv-result").scrollIntoView({behavior:"smooth",block:"start"});
     $("cv-payment-status").textContent = say("المعاينة متاحة. التنزيل مقفل حتى تأكيد الدفع.","Preview is ready. Downloads remain locked until payment is confirmed.");
   }
-  function startInterview() {
+  async function startInterview() {
     document.body.classList.remove("cv-paid");
     const name = $("cv-name-ar").value.trim();
     const domain = $("cv-domain").value;
@@ -156,6 +156,21 @@
     if (email && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) { $("cv-contact-email").focus(); alert("تحقق من صيغة البريد الإلكتروني."); return; }
     lang = $("cv-language").value;
     answers = {nameAr:name,role:$("cv-target-role").value.trim(),domain:$("cv-domain").selectedOptions[0].textContent,phone,email};
+    window.cvLeadId = null;
+    if (phone || email) {
+      const saveButton=$("cv-start"); saveButton.disabled=true; saveButton.textContent="جارٍ حفظ بيانات التواصل...";
+      try {
+        const saved=await fetch("/api/leads",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({nameAr:name,phone,email,dataConsent,marketingConsent,source:"cv-builder"})});
+        const result=await saved.json();
+        if(!saved.ok) throw new Error(result.error||"تعذر حفظ بيانات التواصل.");
+        window.cvLeadId=result.id||null;
+      } catch(error) {
+        saveButton.disabled=false; saveButton.textContent="ابدأ المقابلة الصوتية";
+        alert("لم نتمكن من حفظ بيانات التواصل بأمان. يمكنك إزالة رقم الجوال والبريد للمتابعة دون حفظهما، أو المحاولة لاحقاً.\n"+error.message);
+        return;
+      }
+      saveButton.disabled=false; saveButton.textContent="ابدأ المقابلة الصوتية";
+    }
     const selected = [...common];
     const specific = domains[domain] || domains.other;
     specific.forEach(([id,ar,en]) => selected.push([id,ar,en]));
