@@ -1,6 +1,7 @@
 const { paypalRequest } = require("../../lib/paypal");
 
-const PRODUCTS = {\n  cv: "ATS Resume Builder - Professional CV",
+const PRODUCTS = {
+  cv: "ATS Resume Builder - Professional CV",
   customers: "Premium Customer & Order Tracker",
   sales: "Sales & Targets Tracker",
   leads: "CRM & Leads Tracker",
@@ -35,7 +36,7 @@ module.exports = async (req, res) => {
         intent: "CAPTURE",
         purchase_units: [{
           reference_id: templateId,
-          custom_id: templateId,
+          custom_id: templateId === "cv" ? "cv-" + resumeHash.toLowerCase() : templateId,
           description: PRODUCTS[templateId],
           amount: { currency_code: "USD", value: "5.00" }
         }],
