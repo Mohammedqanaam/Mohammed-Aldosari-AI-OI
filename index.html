@@ -175,11 +175,62 @@ analyzeBtn.addEventListener("click",()=>{
  status(analysisStatus,message,"ok");
 });
 document.getElementById("clearBtn").addEventListener("click",()=>{input.value="";workbook=null;selectedFile=null;rows=[];headers=[];sheetSelect.innerHTML="<option>ارفع ملفاً أولاً</option>";sheetSelect.disabled=true;analyzeBtn.disabled=true;preview.textContent="ستظهر هنا عينة من أول 8 صفوف بعد رفع الملف.";rowCount.textContent="لا يوجد ملف";fileStatus.className="status";analysisStatus.className="status"});
-document.getElementById("payBtn").addEventListener("click",()=>{
+let verifiedOrderID=null;
+async function startCheckout(){
  const email=document.getElementById("email").value.trim();
- if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){status(fileStatus,"تحقق من صحة البريد الإلكتروني.","err");return}
+ if(email&&!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)){status(fileStatus,"تحقق من صحة البريد الإلكتروني.","err");throw new Error("تحقق من صحة البريد الإلكتروني.");}
+ status(document.getElementById("paymentStatus"),"جارٍ إنشاء طلب دفع آمن…","warn");
+ const response=await fetch("/api/paypal/create-order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({templateId:type.value})});
+ const data=await response.json();
+ if(!response.ok||!data.id)throw new Error(data.error||"تعذر بدء الدفع.");
  try{sessionStorage.setItem("template_request",JSON.stringify({category:currentCategory,type:type.value,email:email,fileName:selectedFile?.name||"",sheet:currentSheet,createdAt:new Date().toISOString()}))}catch(e){}
+ return data.id;
+}
+async function captureCheckout(orderID){
+ const response=await fetch("/api/paypal/capture-order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({orderID,templateId:type.value})});
+ const data=await response.json();
+ if(!response.ok||!data.paid)throw new Error(data.error||"لم يتم تأكيد الدفع.");
+ verifiedOrderID=data.orderID;
+ document.getElementById("downloadBtn").disabled=false;
+ document.getElementById("downloadBtn").textContent="تحميل القالب المدفوع";
+ status(document.getElementById("paymentStatus"),"تم التحقق من الدفع بنجاح. أصبح التحميل متاحاً لهذا القالب.","ok");
+}
+document.getElementById("downloadBtn").addEventListener("click",async()=>{
+ if(!verifiedOrderID)return;
+ const btn=document.getElementById("downloadBtn");btn.disabled=true;btn.textContent="جارٍ تجهيز ملفك…";
+ try{
+  const url="/api/download?orderID="+encodeURIComponent(verifiedOrderID)+"&templateId="+encodeURIComponent(type.value);
+  const response=await fetch(url);
+  if(!response.ok){const err=await response.json().catch(()=>({}));throw new Error(err.error||"تعذر التحقق من الدفع أو إنشاء الملف.");}
+  const blob=await response.blob();const a=document.createElement("a");const objectURL=URL.createObjectURL(blob);
+  a.href=objectURL;a.download="Gulf-"+type.value+"-Template.xlsx";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(objectURL);
+  btn.textContent="تم تجهيز التحميل";status(document.getElementById("paymentStatus"),"تم تجهيز ملف Excel الخاص بك.","ok");
+ }catch(e){btn.disabled=false;btn.textContent="إعادة محاولة التحميل";status(document.getElementById("paymentStatus"),e.message,"err");}
 });
+async function initializePayPal(){
+ const container=document.getElementById("paypal-button-container");
+ try{
+  const cfgRes=await fetch("/api/paypal/config",{cache:"no-store"});const cfg=await cfgRes.json();
+  if(!cfgRes.ok||!cfg.configured)throw new Error("يلزم إعداد بيانات PayPal في إعدادات Vercel قبل استقبال المدفوعات.");
+  const sdk=document.createElement("script");sdk.src="https://www.paypal.com/sdk/js?client-id="+encodeURIComponent(cfg.clientId)+"&currency=USD&intent=capture";
+  sdk.onload=()=>{
+   container.innerHTML="";
+   paypal.Buttons({
+    style:{layout:"vertical",color:"gold",shape:"rect",label:"pay",height:45},
+    createOrder:()=>startCheckout(),
+    onApprove:async(data)=>{try{await captureCheckout(data.orderID)}catch(e){status(document.getElementById("paymentStatus"),e.message,"err");}},
+    onCancel:()=>status(document.getElementById("paymentStatus"),"تم إلغاء عملية الدفع. يمكنك المحاولة مجدداً.","warn"),
+    onError:(err)=>{console.error(err);status(document.getElementById("paymentStatus"),"تعذر إكمال الدفع. حاول مرة أخرى أو تواصل مع الدعم.","err");}
+   }).render("#paypal-button-container");
+  };
+  sdk.onerror=()=>status(document.getElementById("paymentStatus"),"تعذر تحميل بوابة PayPal.","err");
+  document.head.appendChild(sdk);
+ }catch(e){
+  container.innerHTML='<button class="btn gold" type="button" disabled style="width:100%">الدفع غير متاح حالياً</button>';
+  status(document.getElementById("paymentStatus"),e.message,"warn");
+ }
+}
+initializePayPal();
 })();
 </script>
 </body></html>
