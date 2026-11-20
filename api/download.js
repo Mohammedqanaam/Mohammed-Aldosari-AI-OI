@@ -168,10 +168,57 @@ async function buildWorkbook(templateId) {
     ["Template | القالب",t.title],
     ["Available rows | عدد الصفوف",t.rows],
     ["Data sheet | ورقة البيانات",t.sheet],
-    ["Currency note | ملاحظة العملة","اختر عملة واحدة لكل مجموعة تقارير."]
+    ["Total records | إجمالي السجلات",{formula:"COUNTA('" + t.sheet + "'!A2:A" + (t.rows+1) + ")"}]
   ];
   summary.forEach((r,i)=>{dash.addRow(r); if(i===0) styleHeader(dash.getRow(dash.rowCount));});
-  dash.getColumn(1).width=34; dash.getColumn(2).width=54;
+  const dataRef = "'" + t.sheet + "'";
+  const last = t.rows + 1;
+  const kpis = [];
+  if (templateId === "customers") {
+    kpis.push(["Order value | إجمالي الطلبات",{formula:"SUM(" + dataRef + "!G2:G" + last + ")"}]);
+    kpis.push(["Collected | المحصل",{formula:"SUM(" + dataRef + "!H2:H" + last + ")"}]);
+    kpis.push(["Outstanding | المتبقي",{formula:"SUM(" + dataRef + "!I2:I" + last + ")"}]);
+    kpis.push(["Completed | المكتمل",{formula:'COUNTIF(' + dataRef + '!F2:F' + last + ',"*مكتمل*")'}]);
+  } else if (templateId === "reservations") {
+    kpis.push(["Room revenue | إيرادات الغرف",{formula:"SUM(" + dataRef + "!L2:L" + last + ")"}]);
+    kpis.push(["Collected | المحصل",{formula:"SUM(" + dataRef + "!M2:M" + last + ")"}]);
+    kpis.push(["Outstanding | المتبقي",{formula:"SUM(" + dataRef + "!N2:N" + last + ")"}]);
+    kpis.push(["Confirmed | المؤكد",{formula:'COUNTIF(' + dataRef + '!K2:K' + last + ',"*مؤكد*")'}]);
+  } else if (templateId === "sales") {
+    kpis.push(["Sales total | إجمالي المبيعات",{formula:"SUM(" + dataRef + "!G2:G" + last + ")"}]);
+    kpis.push(["Targets total | إجمالي المستهدف",{formula:"SUM(" + dataRef + "!H2:H" + last + ")"}]);
+    kpis.push(["Average achievement | متوسط الإنجاز",{formula:"IFERROR(AVERAGE(" + dataRef + "!I2:I" + last + "),0)"}]);
+  } else if (templateId === "invoices") {
+    kpis.push(["Invoice value | قيمة الفواتير",{formula:"SUM(" + dataRef + "!E2:E" + last + ")"}]);
+    kpis.push(["Collected | المحصل",{formula:"SUM(" + dataRef + "!F2:F" + last + ")"}]);
+    kpis.push(["Outstanding | المتبقي",{formula:"SUM(" + dataRef + "!G2:G" + last + ")"}]);
+  } else if (templateId === "inventory") {
+    kpis.push(["Current stock | الرصيد الحالي",{formula:"SUM(" + dataRef + "!G2:G" + last + ")"}]);
+    kpis.push(["Stock value | قيمة المخزون",{formula:"SUMPRODUCT(" + dataRef + "!G2:G" + last + "," + dataRef + "!I2:I" + last + ")"}]);
+  } else if (templateId === "callcenter") {
+    kpis.push(["Calls offered | المكالمات الواردة",{formula:"SUM(" + dataRef + "!D2:D" + last + ")"}]);
+    kpis.push(["Calls answered | المجابة",{formula:"SUM(" + dataRef + "!E2:E" + last + ")"}]);
+    kpis.push(["Missed calls | الفائتة",{formula:"SUM(" + dataRef + "!F2:F" + last + ")"}]);
+    kpis.push(["Bookings | الحجوزات",{formula:"SUM(" + dataRef + "!G2:G" + last + ")"}]);
+  } else if (templateId === "guestservice") {
+    kpis.push(["Total cases | إجمالي الحالات",{formula:"COUNTA(" + dataRef + "!A2:A" + last + ")"}]);
+    kpis.push(["Closed cases | المغلقة",{formula:'COUNTIF(' + dataRef + '!J2:J' + last + ',"*مغلق*")'}]);
+    kpis.push(["Open cases | المفتوحة",{formula:'COUNTIF(' + dataRef + '!J2:J' + last + ',"<>*مغلق*")'}]);
+  } else {
+    kpis.push(["Amount total | إجمالي القيمة",{formula:"SUM(" + dataRef + "!G2:G" + last + ")"}]);
+  }
+  kpis.forEach((r)=>dash.addRow(r));
+  dash.getColumn(1).width=38; dash.getColumn(2).width=58;
+  for (let r=7;r<=dash.rowCount;r++) {
+    dash.getRow(r).height=25;
+    dash.getRow(r).eachCell({includeEmpty:true},cell=>{
+      cell.font={name:"Aptos",size:10,color:{argb:"FF243447"}};
+      cell.alignment={vertical:"middle",wrapText:true};
+      cell.border={bottom:{style:"thin",color:{argb:"FFD8E0E8"}}};
+    });
+    dash.getCell(r,2).font={name:"Aptos",size:11,bold:true,color:{argb:"FF142B4A"}};
+    if (typeof dash.getCell(r,2).value === "object") dash.getCell(r,2).numFmt = "#,##0.00";
+  }
   return wb;
 }
 
