@@ -61,7 +61,6 @@
   };
   const common = [
     ["enName","هل لديك اسم باللغة الإنجليزية كما يظهر في جواز السفر أو الوثائق الرسمية؟ إن لم يكن، تجاوز السؤال.","Do you use an English name as shown on official documents? If not, skip."],
-    ["contact","ما بريدك الإلكتروني ورقم التواصل المهني؟ يمكنك كتابة وسيلة تواصل واحدة على الأقل.","What professional email and phone number should employers use? At least one contact method."],
     ["location","في أي مدينة ودولة تقيم؟ وهل تقبل الانتقال أو العمل عن بُعد؟","Which city and country are you based in? Are you open to relocation or remote work?"],
     ["role","ما المسمى الوظيفي الدقيق الذي تستهدفه؟ اذكر مسمى واحداً أو مسميين قريبين.","What exact job title are you targeting? Give one or two closely related titles."],
     ["summary","كيف تصف نفسك مهنياً؟ اذكر سنوات الخبرة إن وجدت، ومجال قوتك، ونوع الدور الذي تؤديه. لا تضف أرقاماً غير مؤكدة.","How would you describe yourself professionally? Mention years of experience if any, strengths, and role. Do not invent metrics."],
@@ -150,30 +149,28 @@
     }
     if (!domain) { $("cv-domain").focus(); alert("يرجى اختيار مجال التخصص أولاً."); return; }
     const phone=$("cv-contact-phone").value.trim(), email=$("cv-contact-email").value.trim();
-    const dataConsent=$("cv-data-consent").checked, marketingChannels=[];
-    if ($("cv-marketing-email").checked && email) marketingChannels.push("email");
-    if ($("cv-marketing-phone").checked && phone) marketingChannels.push("sms_whatsapp");
-    const marketingConsent=marketingChannels.length>0;
-    if ((phone || email) && !dataConsent) { $("cv-data-consent").focus(); alert("يرجى الموافقة على معالجة بيانات التواصل لحفظها، أو اترك بيانات التواصل فارغة للمتابعة دون حفظها."); return; }
-    if (phone && !/^\+?[0-9\s()-]{8,20}$/.test(phone)) { $("cv-contact-phone").focus(); alert("تحقق من صيغة رقم الجوال."); return; }
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { $("cv-contact-email").focus(); alert("تحقق من صيغة البريد الإلكتروني."); return; }
+    const dataConsent=$("cv-data-consent").checked;
+    if (!phone) { $("cv-contact-phone").focus(); alert("رقم الجوال مطلوب."); return; }
+    if (!email) { $("cv-contact-email").focus(); alert("البريد الإلكتروني مطلوب."); return; }
+    if (!/^\+?[0-9\s()-]{8,20}$/.test(phone)) { $("cv-contact-phone").focus(); alert("تحقق من صيغة رقم الجوال."); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { $("cv-contact-email").focus(); alert("تحقق من صيغة البريد الإلكتروني."); return; }
+    if (!dataConsent) { $("cv-data-consent").focus(); alert("الموافقة على معالجة البيانات مطلوبة للمتابعة."); return; }
     lang = $("cv-language").value;
-    answers = {nameAr:name,role:$("cv-target-role").value.trim(),domain:$("cv-domain").selectedOptions[0].textContent,phone,email,contact:[phone,email].filter(Boolean).join(" | ")};
+    answers = {nameAr:name,role:$("cv-target-role").value.trim(),domain:$("cv-domain").selectedOptions[0].textContent,phone,email,contact:[phone,email].join(" | ")};
     window.cvLeadId = null;
-    if (phone || email) {
-      const saveButton=$("cv-start"); saveButton.disabled=true; saveButton.textContent="جارٍ حفظ بيانات التواصل...";
-      try {
-        const saved=await fetch("/api/leads",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({nameAr:name,phone,email,dataConsent,marketingConsent,marketingChannels,source:"cv-builder"})});
-        const result=await saved.json();
-        if(!saved.ok) throw new Error(result.error||"تعذر حفظ بيانات التواصل.");
-        window.cvLeadId=result.id||null;
-      } catch(error) {
-        saveButton.disabled=false; saveButton.textContent="ابدأ المقابلة الصوتية";
-        alert("لم نتمكن من حفظ بيانات التواصل بأمان. يمكنك إزالة رقم الجوال والبريد للمتابعة دون حفظهما، أو المحاولة لاحقاً.\n"+error.message);
-        return;
-      }
-      saveButton.disabled=false; saveButton.textContent="ابدأ المقابلة الصوتية";
+    const saveButton=$("cv-start"); saveButton.disabled=true; saveButton.textContent="جارٍ حفظ بيانات الطلب...";
+    try {
+      const saved=await fetch("/api/leads",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({nameAr:name,phone,email,dataConsent})});
+      const result=await saved.json();
+      if(!saved.ok) throw new Error(result.error||"تعذر حفظ بيانات الطلب.");
+      window.cvLeadId=result.id||null;
+      if(!window.cvLeadId) throw new Error("لم يصل رقم الطلب من الخادم.");
+    } catch(error) {
+      saveButton.disabled=false; saveButton.textContent="ابدأ المقابلة";
+      alert("تعذر حفظ الطلب. لم تبدأ المقابلة حتى لا تضيع بياناتك.\n"+error.message);
+      return;
     }
+    saveButton.disabled=false; saveButton.textContent="ابدأ المقابلة";
     const selected = [...common];
     const specific = domains[domain] || domains.other;
     specific.forEach(([id,ar,en]) => selected.push([id,ar,en]));
