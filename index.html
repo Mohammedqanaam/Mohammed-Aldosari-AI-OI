@@ -54,7 +54,10 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
 .cv-voice .cv-mic{background:#167c80}
 .cv-voice .cv-small{font-size:12px;color:#65758b}
 .cv-voice .cv-output{white-space:pre-wrap;background:#fff;border:1px solid #dce3eb;border-radius:12px;padding:18px;line-height:1.9;min-height:140px}
-.cv-voice .cv-hidden{display:none!important}\n.cv-voice #cv-preview{user-select:text}\n.cv-voice .cv-output{font-family:Arial,Tahoma,sans-serif;direction:rtl;text-align:right;white-space:pre-wrap}\n.cv-voice input[type=text]{width:100%}
+.cv-voice .cv-hidden{display:none!important}
+.cv-voice #cv-preview{user-select:text}
+.cv-voice .cv-output{font-family:Arial,Tahoma,sans-serif;direction:rtl;text-align:right;white-space:pre-wrap}
+.cv-voice input[type=text]{width:100%}
 @media(max-width:600px){.cv-voice{padding:17px}.cv-voice .cv-question{font-size:18px}}
 
 </style>
@@ -111,7 +114,10 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
 
 <section class="cv-voice" id="voice-cv">
  <div class="cv-top"><div><div class="cv-kicker">VOICE CV BUILDER</div><h2 style="margin:4px 0;color:#142b4a">أنشئ سيرتك الذاتية بالمقابلة الصوتية</h2><p class="sub" style="margin:0">تحدث بطريقتك، وسيطرح عليك المساعد أسئلة مرتبة ليجمع بيانات سيرتك الذاتية.</p></div><span class="pill">عربي / English</span></div>
- <div class="cv-card" id="cv-intro">\n  <label class="fieldlabel" for="cv-name-ar">الاسم الكامل بالعربية (إلزامي)</label><input id="cv-name-ar" type="text" autocomplete="name" maxlength="90" placeholder="مثال: محمد عبدالعزيز الدوسري" required><p class="cv-small">اكتب الاسم كما تريد ظهوره في السيرة الذاتية. لن تبدأ المقابلة قبل إدخاله.</p>\n  <label class="fieldlabel" for="cv-domain">مجال التخصص</label><select id="cv-domain"><option value="">اختر المجال المهني</option><option value="admin">الإدارة والموارد البشرية</option><option value="business">الأعمال والمبيعات والتسويق</option><option value="finance">المالية والمحاسبة</option><option value="it">تقنية المعلومات والبرمجة</option><option value="engineering">الهندسة</option><option value="medical">الطب والرعاية الصحية</option><option value="education">التعليم والتدريب</option><option value="hospitality">الفندقة والسياحة</option><option value="legal">القانون والامتثال</option><option value="operations">التشغيل وسلاسل الإمداد</option><option value="other">مجال آخر</option></select>\n  <label class="fieldlabel" for="cv-target-role">المسمى الوظيفي المستهدف (اختياري)</label><input id="cv-target-role" type="text" maxlength="100" placeholder="مثال: محلل بيانات / مهندس مدني / أخصائي موارد بشرية">
+ <div class="cv-card" id="cv-intro">
+  <label class="fieldlabel" for="cv-name-ar">الاسم الكامل بالعربية (إلزامي)</label><input id="cv-name-ar" type="text" autocomplete="name" maxlength="90" placeholder="مثال: محمد عبدالعزيز الدوسري" required><p class="cv-small">اكتب الاسم كما تريد ظهوره في السيرة الذاتية. لن تبدأ المقابلة قبل إدخاله.</p>
+  <label class="fieldlabel" for="cv-domain">مجال التخصص</label><select id="cv-domain"><option value="">اختر المجال المهني</option><option value="admin">الإدارة والموارد البشرية</option><option value="business">الأعمال والمبيعات والتسويق</option><option value="finance">المالية والمحاسبة</option><option value="it">تقنية المعلومات والبرمجة</option><option value="engineering">الهندسة</option><option value="medical">الطب والرعاية الصحية</option><option value="education">التعليم والتدريب</option><option value="hospitality">الفندقة والسياحة</option><option value="legal">القانون والامتثال</option><option value="operations">التشغيل وسلاسل الإمداد</option><option value="other">مجال آخر</option></select>
+  <label class="fieldlabel" for="cv-target-role">المسمى الوظيفي المستهدف (اختياري)</label><input id="cv-target-role" type="text" maxlength="100" placeholder="مثال: محلل بيانات / مهندس مدني / أخصائي موارد بشرية">
   <b style="color:#142b4a">مقابلة صوتية خطوة بخطوة</b>
   <p class="cv-small">سيُطلب منك التحدث عن مؤهلك وخبراتك والأنظمة التي تعرفها ومهاراتك ولغاتك. يمكنك الإجابة بالصوت أو الكتابة، وتجاوز أي سؤال لا ينطبق عليك.</p>
   <label class="fieldlabel" for="cv-language">لغة المقابلة</label><select id="cv-language"><option value="ar-SA">العربية</option><option value="en-US">English</option></select>
