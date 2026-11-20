@@ -1,6 +1,6 @@
 const { paypalRequest } = require("../../lib/paypal");
 
-const PRODUCTS = {
+const PRODUCTS = {\n  cv: "ATS Resume Builder - Professional CV",
   customers: "Premium Customer & Order Tracker",
   sales: "Sales & Targets Tracker",
   leads: "CRM & Leads Tracker",
