@@ -11,7 +11,7 @@ create table if not exists public.customer_leads (
   data_consent_version text,
   marketing_consent boolean not null default false,
   marketing_channels text[] not null default '{}',
-  marketing_consent_at timestamptz,
+  marketing_consent_at timestamptz,\n  marketing_revoked_at timestamptz,
   source text not null default 'cv-builder',
   status text not null default 'started' check (status in ('started','abandoned','paid','closed')),
   created_at timestamptz not null default now(),
