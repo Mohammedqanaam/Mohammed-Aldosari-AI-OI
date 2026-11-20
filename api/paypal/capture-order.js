@@ -1,4 +1,5 @@
 const { paypalRequest } = require("../../lib/paypal");
+const { supabase } = require("../../lib/leads");
 
 module.exports = async (req, res) => {
   res.setHeader("Cache-Control", "no-store");
@@ -27,7 +28,15 @@ module.exports = async (req, res) => {
     ) {
       return res.status(402).json({ error: "لم يتم تأكيد دفع مكتمل بالقيمة والمنتج الصحيحين." });
     }
-    return res.status(200).json({ paid: true, orderID: captured.id, templateId, resumeHash: templateId === "cv" ? unit.custom_id.slice(3) : null, captureID: capture.id });
+    if (templateId === "cv" && typeof unit.invoice_id === "string" && /^[0-9a-f-]{36}$/i.test(unit.invoice_id)) {
+      try {
+        await supabase("customer_leads?id=eq." + encodeURIComponent(unit.invoice_id), {
+          method: "PATCH", headers: { Prefer: "return=minimal" },
+          body: JSON.stringify({ status: "paid", last_activity_at: new Date().toISOString() })
+        });
+      } catch (leadError) { console.error("CV payment lead update failed", leadError.message); }
+    }
+    return res.status(200).json({ paid: true, orderID: captured.id, templateId, resumeHash: templateId === "cv" ? unit.custom_id.slice(3) : null, captureID: capture.id, leadId: unit.invoice_id || null });
   } catch (error) {
     console.error("PayPal capture:", error.message);
     return res.status(error.statusCode || 500).json({ error: "تعذر تأكيد الدفع. إذا تم الخصم، لا تكرر الدفع وتواصل مع الدعم." });
