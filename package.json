@@ -1,0 +1,9 @@
+{
+  "name": "gulf-excel-business-templates",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bilingual Gulf-focused Excel template storefront with PayPal verified checkout",
+  "dependencies": {
+    "exceljs": "^4.4.0"
+  }
+}
