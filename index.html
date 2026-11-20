@@ -279,12 +279,16 @@ async function initializePayPal(){
     onCancel:()=>status(document.getElementById("paymentStatus"),"تم إلغاء عملية الدفع. يمكنك المحاولة مجدداً.","warn"),
     onError:(err)=>{console.error(err);status(document.getElementById("paymentStatus"),"تعذر إكمال الدفع. حاول مرة أخرى أو تواصل مع الدعم.","err");}
    }).render("#paypal-button-container");
-   const cvContainer=document.getElementById("cv-paypal-button-container");
-   if(cvContainer && window.CVResume){
+   let cvRendered=false;
+   const renderCVPayPal=()=>{
+    const cvContainer=document.getElementById("cv-paypal-button-container");
+    if(cvRendered || !cvContainer || !window.CVResume) return;
+    cvRendered=true;
     paypal.Buttons({
      style:{layout:"vertical",color:"gold",shape:"rect",label:"pay",height:45},
      createOrder:async()=>{
-      const payload=await window.CVResume.getPaymentPayload();\n      const r=await fetch("/api/paypal/create-order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({templateId:"cv",...payload})});
+      const payload=await window.CVResume.getPaymentPayload();
+      const r=await fetch("/api/paypal/create-order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({templateId:"cv",...payload})});
       const d=await r.json();if(!r.ok||!d.id)throw new Error(d.error||"تعذر إنشاء طلب الدفع.");return d.id;
      },
      onApprove:async(data)=>{
@@ -297,7 +301,9 @@ async function initializePayPal(){
      onCancel:()=>{const el=document.getElementById("cv-payment-status");el.textContent="تم إلغاء الدفع. يمكنك المحاولة مجدداً.";el.className="status warn";},
      onError:(e)=>{console.error(e);const el=document.getElementById("cv-payment-status");el.textContent="تعذر إكمال الدفع. حاول مجدداً.";el.className="status err";}
     }).render("#cv-paypal-button-container");
-   }
+   };
+   window.addEventListener("cv-resume-ready",renderCVPayPal);
+   renderCVPayPal();
   };
   sdk.onerror=()=>status(document.getElementById("paymentStatus"),"تعذر تحميل بوابة PayPal.","err");
   document.head.appendChild(sdk);
