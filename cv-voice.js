@@ -183,7 +183,8 @@
     if(!paid || !paidOrder) return;
     const btn=$("cv-download-docx");btn.disabled=true;btn.textContent=say("جارٍ التحقق وتجهيز Word...","Verifying and preparing Word...");
     try{
-      const payload=await window.CVResume.getPaymentPayload();\n      const response=await fetch("/api/cv/download",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({orderID:paidOrder,answers,language:lang,resumeHash:payload.resumeHash})});
+      const payload=await window.CVResume.getPaymentPayload();
+      const response=await fetch("/api/cv/download",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({orderID:paidOrder,answers,language:lang,resumeHash:payload.resumeHash})});
       if(!response.ok){const e=await response.json().catch(()=>({}));throw new Error(e.error||"تعذر تنزيل الملف.");}
       const blob=await response.blob();const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="ATS-Resume.docx";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
       btn.textContent=say("تم تنزيل Word","Word downloaded");
@@ -199,12 +200,25 @@
   });
   window.CVResume = {
     getAnswers:()=>answers,
-    unlock:orderID=>{
+    getPaymentPayload:async()=>{
+      if(!window.crypto || !crypto.subtle) throw new Error("يتطلب الدفع اتصالاً آمناً يدعم التحقق المشفر.");
+      const bytes=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(JSON.stringify({answers,language:lang})));
+      pendingHash=Array.from(new Uint8Array(bytes)).map(b=>b.toString(16).padStart(2,"0")).join("");
+      return {resumeHash:pendingHash};
+    },
+    unlock:(orderID,resumeHash)=>{
+      if(!pendingHash || resumeHash !== pendingHash) {
+        $("cv-payment-status").textContent="تعذر مطابقة دفعة PayPal مع نسخة السيرة الحالية.";
+        $("cv-payment-status").className="status err";
+        return;
+      }
       paid=true;paidOrder=orderID;
+      $("cv-edit").disabled=true;
       $("cv-download-docx").disabled=false;$("cv-download-docx").textContent=say("تنزيل السيرة الذاتية Word","Download ATS Resume (Word)");
       $("cv-print-pdf").disabled=false;$("cv-print-pdf").textContent=say("طباعة / حفظ PDF","Print / Save PDF");
       $("cv-payment-status").textContent=say("تم تأكيد الدفع. أصبح تنزيل Word والطباعة إلى PDF متاحين.","Payment verified. Word download and PDF printing are now unlocked.");
       $("cv-payment-status").className="status ok";
     }
   };
+  window.dispatchEvent(new Event("cv-resume-ready"));
 })();
