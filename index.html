@@ -74,7 +74,7 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
  body.cv-paid #cv-result{display:block!important;border:0;box-shadow:none}
 }
 .cv-voice .cv-output{-webkit-user-select:none;user-select:none}
-.journey-section{display:none!important}.journey-section.active{display:block!important}.journey-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.journey-choice{display:flex;flex-direction:column;align-items:flex-start;gap:9px;text-align:right;padding:22px;border:1px solid var(--line);border-radius:16px;background:#fff;color:var(--ink);cursor:pointer;min-height:150px}.journey-choice strong{font-size:18px;color:var(--navy)}.journey-choice span{font-size:13px;color:var(--muted);font-weight:400}.journey-choice b{margin-top:auto;color:var(--teal);font-size:13px}.cv-contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.cv-section-title{font-weight:800;color:var(--navy);margin:18px 0 6px}.cv-voice .cv-consents{margin:14px 0}.cv-voice .cv-consents label{font-size:13px}@media(max-width:600px){.journey-choices,.cv-contact-grid{grid-template-columns:1fr}}
+.journey-section{display:none!important}.journey-section.active{display:block!important}.journey-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.journey-choice{display:flex;flex-direction:column;align-items:flex-start;gap:9px;text-align:right;padding:22px;border:1px solid var(--line);border-radius:16px;background:#fff;color:var(--ink);cursor:pointer;min-height:150px}.journey-choice strong{font-size:18px;color:var(--navy)}.journey-choice span{font-size:13px;color:var(--muted);font-weight:400}.journey-choice b{margin-top:auto;color:var(--teal);font-size:13px}.journey-back{border:0;background:transparent;color:var(--teal);font:inherit;font-size:13px;font-weight:700;padding:0;margin:0 0 12px;cursor:pointer}.cv-contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.cv-section-title{font-weight:800;color:var(--navy);margin:18px 0 6px}.cv-voice .cv-consents{margin:14px 0}.cv-voice .cv-consents label{font-size:13px}@media(max-width:600px){.journey-choices,.cv-contact-grid{grid-template-columns:1fr}}
 body.cv-paid .cv-voice .cv-output{-webkit-user-select:text;user-select:text}
 
 /* Refined storefront design */
@@ -99,7 +99,7 @@ input,select,textarea{border-radius:11px!important;border-color:#d6e0e8!importan
 <section class="hero"><div class="eyebrow">خدمات رقمية عملية</div><h1>ابدأ من احتياجك.</h1><p>اختر الخدمة، ثم أكمل الخطوات المطلوبة فقط.</p></section></header>
 <main>
 <section class="panel section" id="journey-start"><h2>ما الخدمة التي تحتاجها؟</h2><p class="sub">اختر مسارك للبدء. ستظهر لك الخطوات الخاصة بخدمتك فقط.</p><div class="journey-choices"><button class="journey-choice" type="button" data-journey="cv"><strong>إنشاء سيرة ذاتية</strong><span>مقابلة ذكية ثم معاينة ATS قبل الدفع</span><b>ابدأ الآن ←</b></button><button class="journey-choice" type="button" data-journey="excel"><strong>قوالب Excel وتخصيص الملفات</strong><span>حدد مجال العمل ثم اختر القالب أو ارفع ملفك</span><b>ابدأ الآن ←</b></button></div></section>
-<section class="panel section journey-section excel-journey" id="catalog"><h2>1. اختر مجال الاختصاص</h2><p class="sub">حدد المجال ثم اختر نوع القالب المطلوب.</p>
+<section class="panel section journey-section excel-journey" id="catalog"><button class="journey-back" type="button" data-back>← تغيير الخدمة</button><h2>اختر مجال العمل</h2><p class="sub">حدد المجال ثم اختر نوع القالب المطلوب.</p>
 <div class="categorygrid" id="categories">
 <button class="cat active" data-cat="sales"><strong>المبيعات</strong><span>Sales Management</span></button>
 <button class="cat" data-cat="admin"><strong>الخدمات الإدارية</strong><span>Administrative Services</span></button>
@@ -130,7 +130,7 @@ input,select,textarea{border-radius:11px!important;border-color:#d6e0e8!importan
 
 
 <section class="cv-voice journey-section cv-journey" id="voice-cv">
- <div class="cv-top"><div><div class="cv-kicker">VOICE CV BUILDER</div><h2 style="margin:4px 0;color:#142b4a">أنشئ سيرتك الذاتية بالمقابلة الصوتية</h2><p class="sub" style="margin:0">تحدث بطريقتك، وسيطرح عليك المساعد أسئلة مرتبة ليجمع بيانات سيرتك الذاتية.</p></div><span class="pill">عربي / English</span></div>
+ <button class="journey-back" type="button" data-back>← تغيير الخدمة</button><div class="cv-top"><div><div class="cv-kicker">VOICE CV BUILDER</div><h2 style="margin:4px 0;color:#142b4a">أنشئ سيرتك الذاتية بالمقابلة الصوتية</h2><p class="sub" style="margin:0">تحدث بطريقتك، وسيطرح عليك المساعد أسئلة مرتبة ليجمع بيانات سيرتك الذاتية.</p></div><span class="pill">عربي / English</span></div>
  <div class="cv-card" id="cv-intro">
   <label class="fieldlabel" for="cv-name-ar">الاسم الكامل</label><input id="cv-name-ar" type="text" autocomplete="name" maxlength="90" placeholder="اكتب اسمك الكامل" required><p class="cv-small">اكتب الاسم كما تريد ظهوره في السيرة الذاتية.</p>
   <label class="fieldlabel" for="cv-domain">مجال التخصص</label><select id="cv-domain"><option value="">اختر المجال المهني</option><option value="admin">الإدارة والموارد البشرية</option><option value="business">الأعمال والمبيعات والتسويق</option><option value="finance">المالية والمحاسبة</option><option value="it">تقنية المعلومات والبرمجة</option><option value="engineering">الهندسة</option><option value="medical">الطب والرعاية الصحية</option><option value="education">التعليم والتدريب</option><option value="hospitality">الفندقة والسياحة</option><option value="legal">القانون والامتثال</option><option value="operations">التشغيل وسلاسل الإمداد</option><option value="other">مجال آخر</option></select>
@@ -176,6 +176,7 @@ input,select,textarea{border-radius:11px!important;border-color:#d6e0e8!importan
 const journeyButtons=document.querySelectorAll("[data-journey]");
 function openJourney(type){document.querySelectorAll(".journey-section").forEach(s=>s.classList.remove("active"));document.querySelector("#journey-start").classList.add("active");document.querySelectorAll("."+type+"-journey").forEach(s=>s.classList.add("active"));const first=document.querySelector("."+type+"-journey");if(first)first.scrollIntoView({behavior:"smooth",block:"start"});}
 journeyButtons.forEach(button=>button.addEventListener("click",()=>openJourney(button.dataset.journey)));
+document.querySelectorAll("[data-back]").forEach(button=>button.addEventListener("click",()=>{document.querySelectorAll(".journey-section").forEach(s=>s.classList.remove("active"));document.querySelector("#journey-start").scrollIntoView({behavior:"smooth",block:"start"});}));
 const categoryTemplates={
  sales:[
   ["customers","متابعة العملاء والطلبات — Customer & Order Tracker","سجل عملاء، حالات طلبات، مبالغ محصلة ومتأخرة، ولوحة مؤشرات أساسية."],
