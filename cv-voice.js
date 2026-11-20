@@ -74,7 +74,7 @@
     ["languages","ما اللغات التي تتحدثها؟ حدد مستوى التحدث والكتابة لكل لغة بشكل منفصل.","Which languages do you speak? Specify speaking and writing proficiency separately."],
     ["certifications","اذكر الشهادات المهنية والدورات والتراخيص، والجهة المانحة وتاريخ الإصدار أو الانتهاء إن وجد.","List professional certificates, courses, and licenses, including issuer and issue or expiry date if applicable."]
   ];
-  let lang = "ar-SA", qs = [], answers = {}, idx = 0, recognition = null, listening = false, paid = false, paidOrder = null;
+  let lang = "ar-SA", qs = [], answers = {}, idx = 0, recognition = null, listening = false, paid = false, paidOrder = null, pendingHash = null;
   const english = () => lang === "en-US";
   const say = (ar,en) => english() ? en : ar;
   const status = msg => { $("cv-voice-status").textContent = msg; };
@@ -183,7 +183,7 @@
     if(!paid || !paidOrder) return;
     const btn=$("cv-download-docx");btn.disabled=true;btn.textContent=say("جارٍ التحقق وتجهيز Word...","Verifying and preparing Word...");
     try{
-      const response=await fetch("/api/cv/download",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({orderID:paidOrder,answers,language:lang})});
+      const payload=await window.CVResume.getPaymentPayload();\n      const response=await fetch("/api/cv/download",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({orderID:paidOrder,answers,language:lang,resumeHash:payload.resumeHash})});
       if(!response.ok){const e=await response.json().catch(()=>({}));throw new Error(e.error||"تعذر تنزيل الملف.");}
       const blob=await response.blob();const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="ATS-Resume.docx";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
       btn.textContent=say("تم تنزيل Word","Word downloaded");
