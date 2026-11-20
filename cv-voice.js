@@ -97,7 +97,7 @@
   function move(delta) {
     if (listening && recognition) recognition.stop();
     const q = qs[idx];
-    if (delta > 0) answers[q.id] = $("cv-answer").value.trim();
+    answers[q.id] = $("cv-answer").value.trim();
     idx = Math.max(0,Math.min(qs.length,idx+delta));
     render();
   }
