@@ -17,7 +17,8 @@ module.exports = async (req, res) => {
   try {
     const orderID = clean(req.body && req.body.orderID);
     const answers = req.body && req.body.answers;
-    const language = req.body && req.body.language === "en-US" ? "en-US" : "ar-SA";\n    const resumeHash = clean(req.body && req.body.resumeHash);
+    const language = req.body && req.body.language === "en-US" ? "en-US" : "ar-SA";
+    const resumeHash = clean(req.body && req.body.resumeHash);
     if (!/^[A-Z0-9-]{8,80}$/i.test(orderID) || !answers || typeof answers !== "object" || Array.isArray(answers)) {
       return res.status(400).json({ error: "Invalid CV request." });
     }
@@ -33,7 +34,8 @@ module.exports = async (req, res) => {
       return res.status(403).json({ error: "تعذر التحقق من صلاحية الدفعة." });
     }
 
-    const digest = crypto.createHash("sha256").update(JSON.stringify({ answers, language })).digest("hex");\n    if (digest !== resumeHash.toLowerCase()) return res.status(403).json({ error: "بيانات السيرة تغيرت بعد الدفع. يجب إتمام طلب دفع جديد للنسخة المعدلة." });\n    const nameAr = clean(answers.nameAr);
+    const digest = crypto.createHash("sha256").update(JSON.stringify({ answers, language })).digest("hex");
+    if (digest !== resumeHash.toLowerCase()) return res.status(403).json({ error: "بيانات السيرة تغيرت بعد الدفع. يجب إتمام طلب دفع جديد للنسخة المعدلة." });\n    const nameAr = clean(answers.nameAr);
     const role = clean(answers.role);
     if (!isArabic(nameAr) || nameAr.split(/\s+/).length < 2 || !role) {
       return res.status(400).json({ error: "الاسم العربي الكامل والمسمى المستهدف مطلوبان." });
