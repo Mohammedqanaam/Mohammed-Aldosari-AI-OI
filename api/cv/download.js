@@ -1,5 +1,6 @@
 const { paypalRequest } = require("../../lib/paypal");
-const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType } = require("docx");\nconst crypto = require("crypto");
+const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType } = require("docx");
+const crypto = require("crypto");
 
 const LABELS = {
   enName:"English Name", contact:"Contact Details", location:"Location", role:"Target Role",
@@ -35,7 +36,8 @@ module.exports = async (req, res) => {
     }
 
     const digest = crypto.createHash("sha256").update(JSON.stringify({ answers, language })).digest("hex");
-    if (digest !== resumeHash.toLowerCase()) return res.status(403).json({ error: "بيانات السيرة تغيرت بعد الدفع. يجب إتمام طلب دفع جديد للنسخة المعدلة." });\n    const nameAr = clean(answers.nameAr);
+    if (digest !== resumeHash.toLowerCase()) return res.status(403).json({ error: "بيانات السيرة تغيرت بعد الدفع. يجب إتمام طلب دفع جديد للنسخة المعدلة." });
+    const nameAr = clean(answers.nameAr);
     const role = clean(answers.role);
     if (!isArabic(nameAr) || nameAr.split(/\s+/).length < 2 || !role) {
       return res.status(400).json({ error: "الاسم العربي الكامل والمسمى المستهدف مطلوبان." });
