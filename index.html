@@ -59,6 +59,7 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
 <button class="cat" data-cat="admin"><strong>الخدمات الإدارية</strong><span>Administrative Services</span></button>
 <button class="cat" data-cat="finance"><strong>المالية والمحاسبة</strong><span>Finance & Accounting</span></button>
 <button class="cat" data-cat="operations"><strong>التشغيل والمخزون</strong><span>Operations & Inventory</span></button>
+<button class="cat" data-cat="hospitality"><strong>الضيافة والحجوزات</strong><span>Hospitality & Reservations</span></button>
 </div>
 <label class="fieldlabel" for="templateType">نوع القالب | Template Type</label>
 <select id="templateType">
@@ -82,8 +83,8 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
 </section>
 
 <section class="panel section" id="checkout"><h2>3. السعر والدفع</h2><p class="sub">القالب القياسي محدد بسعر 5 دولارات. تخصيص الملفات المرفوعة قد يتطلب عرض سعر بعد مراجعة نطاق العمل.</p>
-<div class="checkout"><div><div class="lock"><b>🔒 التحميل محمي</b><p class="muted">لن يظهر رابط الملف النهائي قبل تأكيد الدفع والتحقق من الطلب. الرجوع من صفحة PayPal وحده لا يُعد إثباتاً للدفع.</p></div><div id="paymentStatus" class="status warn">لم يتم تأكيد أي دفعة لهذا الطلب.</div><p class="muted">بعد الدفع، يجب أن يتحقق النظام من حالة المعاملة وقيمتها وعملتها قبل إتاحة الملف. في النسخة الحالية، بوابة التحقق الآلي لم تُربط بعد.</p></div>
-<aside class="pricebox"><div class="muted">STANDARD TEMPLATE</div><div class="price">$5</div><div class="muted">دفعة واحدة • USD</div><p style="font-size:13px">قالب متابعة العملاء والطلبات القياسي</p><a class="btn gold" id="payBtn" href="https://www.paypal.com/ncp/payment/PLB-RZSYZYZQVGAQ" target="_blank" rel="noopener noreferrer">الانتقال إلى PayPal</a><p class="muted">الخدمات المخصصة: يتم تحديد السعر بعد مراجعة الملف والمتطلبات.</p><button class="btn" id="downloadBtn" disabled style="width:100%;margin-top:8px">🔒 التحميل بعد تأكيد الدفع</button></aside></div>
+<div class="checkout"><div><div class="lock"><b>🔒 التحميل محمي</b><p class="muted">يُفتح الملف فقط بعد التحقق من حالة الدفع والمبلغ ومعرّف القالب من PayPal على الخادم.</p></div><div id="paymentStatus" class="status warn">لم يتم تأكيد أي دفعة لهذا الطلب.</div><p class="muted">يتم التحقق من عملية الدفع عبر خادم المتجر مباشرة مع PayPal قبل فتح رابط الملف. لا يكفي الرجوع من صفحة الدفع.</p></div>
+<aside class="pricebox"><div class="muted">STANDARD TEMPLATE</div><div class="price">$5</div><div class="muted">دفعة واحدة • USD</div><p style="font-size:13px" id="selectedProductName">القالب القياسي المحدد</p><div id="paypal-button-container"><button class="btn gold" id="payBtn" type="button" style="width:100%">جارٍ تجهيز الدفع الآمن…</button></div><p class="muted">القوالب القياسية بسعر موحد. التخصيص المتقدم وعمل ملفات من بياناتك له عرض سعر منفصل بعد المراجعة.</p><button class="btn" id="downloadBtn" disabled style="width:100%;margin-top:8px">🔒 التحميل بعد تأكيد الدفع</button></aside></div>
 </section>
 </main>
 <footer>© 2026 تنظيم أعمالك • Premium Excel Templates</footer>
@@ -112,6 +113,11 @@ const categoryTemplates={
   ["inventory","إدارة المخزون — Inventory Control","الأصناف، الكميات، حد إعادة الطلب، حركات المخزون والتنبيهات."],
   ["maintenance","الصيانة والأصول — Maintenance & Assets","الأصول، بلاغات الصيانة، المسؤول، التكلفة والحالة."],
   ["quality","الجودة والإجراءات — Quality & Operations","قوائم الفحص، الملاحظات، الإجراءات التصحيحية ومؤشرات التشغيل."]
+ ],
+ hospitality:[
+  ["reservations","إدارة الحجوزات الفندقية — Hotel Reservations","متابعة الحجوزات، الوصول والمغادرة، القنوات، حالات الحجز، الإيرادات والتحصيل."],
+  ["guestservice","خدمة النزلاء والشكاوى — Guest Service","الشكاوى والطلبات، الأولوية، المسؤول، مهلة SLA، الحل ورضا النزيل."],
+  ["callcenter","أداء مركز الاتصال — Call Center KPIs","المكالمات الواردة والمجابة والفائتة، الحجوزات، التحويل وأداء الموظفين."]
  ]
 };
 const cats=document.querySelectorAll(".cat"),type=document.getElementById("templateType"),desc=document.getElementById("templateDesc");
@@ -156,7 +162,16 @@ analyzeBtn.addEventListener("click",()=>{
   status:["status","الحالة","مرحلة","stage"]
  };
  const found=[];Object.entries(groups).forEach(([k,terms])=>{const idx=norm.findIndex(h=>terms.some(t=>h.includes(t)));if(idx>=0)found.push(k+" ← "+headers[idx])});
- const message=found.length?"تم التعرف مبدئياً على الحقول التالية: "+found.join("، ")+". عدد الصفوف: "+Math.max(0,rows.length-1)+".":"تم استخراج "+Math.max(0,rows.length-1)+" صف و"+headers.length+" عمود. لم يتم التعرف على أسماء الحقول تلقائياً؛ ستحتاج إلى مطابقة الأعمدة عند إعداد القالب.";
+ const body=rows.slice(1).filter(r=>r.some(v=>String(v??"").trim()!==""));
+ const blankByColumn=headers.map((h,i)=>({h,count:body.filter(r=>String(r?.[i]??"").trim()==="").length})).filter(x=>x.count>0);
+ const rowKeys=body.map(r=>JSON.stringify(r.map(v=>String(v??"").trim().toLowerCase())));
+ const duplicates=rowKeys.length-new Set(rowKeys).size;
+ const missing=blankByColumn.reduce((n,x)=>n+x.count,0);
+ const message=(found.length?"الحقول المكتشفة: "+found.join("، ")+". ":"")+
+ "السجلات: "+body.length+" • الأعمدة: "+headers.length+
+ " • خلايا فارغة: "+missing+" • صفوف مكررة بالكامل: "+duplicates+
+ (blankByColumn.length?" • أكثر الأعمدة نقصاً: "+blankByColumn.sort((a,b)=>b.count-a.count).slice(0,3).map(x=>x.h+" ("+x.count+")").join("، "):"")+
+ ". التحليل محلي داخل المتصفح؛ لم يتم رفع محتوى الملف.";
  status(analysisStatus,message,"ok");
 });
 document.getElementById("clearBtn").addEventListener("click",()=>{input.value="";workbook=null;selectedFile=null;rows=[];headers=[];sheetSelect.innerHTML="<option>ارفع ملفاً أولاً</option>";sheetSelect.disabled=true;analyzeBtn.disabled=true;preview.textContent="ستظهر هنا عينة من أول 8 صفوف بعد رفع الملف.";rowCount.textContent="لا يوجد ملف";fileStatus.className="status";analysisStatus.className="status"});
