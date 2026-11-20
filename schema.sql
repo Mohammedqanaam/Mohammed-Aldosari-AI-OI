@@ -21,10 +21,12 @@ alter table public.customer_leads drop column if exists marketing_channels;
 alter table public.customer_leads drop column if exists marketing_consent_at;
 alter table public.customer_leads drop column if exists marketing_revoked_at;
 
--- Enforce both contact methods for new and updated records.
-alter table public.customer_leads alter column phone set not null;
-alter table public.customer_leads alter column email set not null;
+-- Replace the old one-contact constraint. Existing legacy rows remain readable,
+-- while all new or updated rows must contain both contact methods.
 alter table public.customer_leads drop constraint if exists customer_leads_contact_check;
+alter table public.customer_leads drop constraint if exists customer_leads_both_contacts_check;
+alter table public.customer_leads add constraint customer_leads_both_contacts_check
+  check (phone is not null and email is not null) not valid;
 
 create index if not exists customer_leads_created_at_idx on public.customer_leads (created_at desc);
 alter table public.customer_leads enable row level security;
