@@ -53,6 +53,15 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
 <div class="step"><span class="num">04 — CHECKOUT</span><b>الدفع والتسليم</b><small>يفتح التحميل بعد التحقق من الدفع.</small></div>
 </div></section>
 
+<section class="panel section" id="why-us"><h2>لماذا تنظيم أعمالك؟</h2><p class="sub">قوالب عملية مصممة لتناسب واقع المنشآت الصغيرة والمتوسطة والفرق التشغيلية في الخليج.</p>
+<div class="categorygrid">
+<div class="cat" style="cursor:default"><strong>عربي + English</strong><span>مصطلحات ثنائية اللغة في نفس القالب.</span></div>
+<div class="cat" style="cursor:default"><strong>جاهز للتطبيق</strong><span>أوراق منظمة، قوائم، فلاتر ومؤشرات قابلة للتحديث.</span></div>
+<div class="cat" style="cursor:default"><strong>خصوصية أولاً</strong><span>معاينة الملف وتحليله محلياً داخل المتصفح.</span></div>
+<div class="cat" style="cursor:default"><strong>تخصص خليجي</strong><span>الحجوزات الفندقية، خدمة النزلاء ومراكز الاتصال.</span></div>
+</div>
+<div class="note"><b>منهجنا:</b> لا نبيع شكل جدول فقط؛ نركز على وضوح سير العمل، متابعة المسؤوليات، قياس النتائج، وتقليل العمل اليدوي. القوالب القياسية مستقلة عن ملفاتك المرفوعة؛ خدمة تحويل بياناتك أو تخصيص قالبك تخضع لمراجعة منفصلة.</div>
+</section>
 <section class="panel section" id="catalog"><h2>1. اختر مجال الاختصاص</h2><p class="sub">حدد المجال ثم اختر نوع القالب المطلوب.</p>
 <div class="categorygrid" id="categories">
 <button class="cat active" data-cat="sales"><strong>المبيعات</strong><span>Sales Management</span></button>
@@ -155,11 +164,18 @@ sheetSelect.addEventListener("change",()=>{if(!workbook)return;currentSheet=shee
 analyzeBtn.addEventListener("click",()=>{
  if(!rows.length){status(analysisStatus,"لا توجد بيانات كافية للتحليل.","err");return}
  const norm=headers.map(x=>x.toLowerCase()),groups={
-  name:["name","الاسم","العميل","customer","employee","الموظف"],
-  phone:["phone","mobile","الجوال","الهاتف"],
-  date:["date","التاريخ","created","تاريخ الطلب"],
-  amount:["amount","price","المبلغ","السعر","الإجمالي","total"],
-  status:["status","الحالة","مرحلة","stage"]
+  name:["name","الاسم","العميل","customer","employee","الموظف","guest","النزيل"],
+  phone:["phone","mobile","الجوال","الهاتف","رقم التواصل"],
+  date:["date","التاريخ","created","تاريخ الطلب","تاريخ الحجز"],
+  amount:["amount","price","المبلغ","السعر","الإجمالي","total","revenue","الإيراد"],
+  status:["status","الحالة","مرحلة","stage"],
+  branch:["branch","الفرع","الفندق","hotel"],
+  booking:["booking","reservation","الحجز","رقم الحجز"],
+  arrival:["check-in","arrival","الوصول"],
+  departure:["check-out","departure","المغادرة"],
+  channel:["channel","القناة","المصدر"],
+  owner:["owner","agent","المسؤول","الموظف"],
+  target:["target","المستهدف","الهدف"]
  };
  const found=[];Object.entries(groups).forEach(([k,terms])=>{const idx=norm.findIndex(h=>terms.some(t=>h.includes(t)));if(idx>=0)found.push(k+" ← "+headers[idx])});
  const body=rows.slice(1).filter(r=>r.some(v=>String(v??"").trim()!==""));
