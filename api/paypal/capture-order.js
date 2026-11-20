@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
     if (
       captured.status !== "COMPLETED" ||
       !unit ||
-      unit.custom_id !== templateId ||
+      (templateId === "cv" ? !/^cv-[a-f0-9]{64}$/i.test(unit.custom_id || "") : unit.custom_id !== templateId) ||
       !capture ||
       capture.status !== "COMPLETED" ||
       !amount ||
@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
     ) {
       return res.status(402).json({ error: "لم يتم تأكيد دفع مكتمل بالقيمة والمنتج الصحيحين." });
     }
-    return res.status(200).json({ paid: true, orderID: captured.id, templateId, captureID: capture.id });
+    return res.status(200).json({ paid: true, orderID: captured.id, templateId, resumeHash: templateId === "cv" ? unit.custom_id.slice(3) : null, captureID: capture.id });
   } catch (error) {
     console.error("PayPal capture:", error.message);
     return res.status(error.statusCode || 500).json({ error: "تعذر تأكيد الدفع. إذا تم الخصم، لا تكرر الدفع وتواصل مع الدعم." });
