@@ -24,8 +24,8 @@ module.exports = async (req, res) => {
   res.setHeader("Cache-Control", "no-store");
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
   try {
-    const { templateId } = req.body || {};
-    if (!Object.prototype.hasOwnProperty.call(PRODUCTS, templateId)) {
+    const { templateId, resumeHash } = req.body || {};
+    if (!Object.prototype.hasOwnProperty.call(PRODUCTS, templateId) || (templateId === "cv" && (typeof resumeHash !== "string" || !/^[a-f0-9]{64}$/i.test(resumeHash)))) {
       return res.status(400).json({ error: "Please select a valid template." });
     }
     const order = await paypalRequest("/v2/checkout/orders", {
