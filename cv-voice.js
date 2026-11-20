@@ -113,7 +113,8 @@
     const a = answers;
     const contact = [a.contact,a.location].filter(Boolean).join(" | ");
     let out = [a.nameAr,a.enName,a.role,contact].filter(Boolean).join("\n") + "\n\n";
-    out += section("المجال المهني","PROFESSIONAL FIELD",a.domain);\n    out += section("الملخص المهني","PROFESSIONAL SUMMARY",a.summary);
+    out += section("المجال المهني","PROFESSIONAL FIELD",a.domain);
+    out += section("الملخص المهني","PROFESSIONAL SUMMARY",a.summary);
     out += section("الخبرات العملية","WORK EXPERIENCE",a.experience);
     out += section("التعليم والمؤهلات","EDUCATION",a.education);
     out += section("المشاريع والتدريب العملي","PROJECTS & PRACTICAL TRAINING",a.projects);
