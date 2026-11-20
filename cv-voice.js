@@ -108,17 +108,17 @@
     if (!answers.education?.trim() && !answers.experience?.trim()) missing.push(say("المؤهل العلمي أو الخبرة العملية","education or work experience"));
     return missing;
   }
-  function section(ar,en,value) { return value?.trim() ? (english()?en:ar) + "\\n" + value.trim() + "\\n\\n" : ""; }
+  function section(ar,en,value) { return value?.trim() ? (english()?en:ar) + "\n" + value.trim() + "\n\n" : ""; }
   function makePreview() {
     const a = answers;
     const contact = [a.contact,a.location].filter(Boolean).join(" | ");
-    let out = [a.nameAr,a.enName,a.role,contact].filter(Boolean).join("\\n") + "\\n\\n";
+    let out = [a.nameAr,a.enName,a.role,contact].filter(Boolean).join("\n") + "\n\n";
     out += section("الملخص المهني","PROFESSIONAL SUMMARY",a.summary);
     out += section("الخبرات العملية","WORK EXPERIENCE",a.experience);
     out += section("التعليم والمؤهلات","EDUCATION",a.education);
     out += section("المشاريع والتدريب العملي","PROJECTS & PRACTICAL TRAINING",a.projects);
     out += section("الإنجازات","KEY ACHIEVEMENTS",a.achievements);
-    out += section("المعرفة التخصصية","SPECIALIST KNOWLEDGE",[a.technical,a.technical2,a.technical3].filter(Boolean).join("\\n"));
+    out += section("المعرفة التخصصية","SPECIALIST KNOWLEDGE",[a.technical,a.technical2,a.technical3].filter(Boolean).join("\n"));
     out += section("الأنظمة والأدوات","SYSTEMS & TOOLS",a.tools);
     out += section("المهارات","CORE SKILLS",a.skills);
     out += section("الشهادات والتراخيص","CERTIFICATIONS & LICENSES",a.certifications);
@@ -193,7 +193,7 @@
     if(!paid)return;
     const popup=window.open("","_blank");
     if(!popup){$("cv-payment-status").textContent=say("اسمح بالنوافذ المنبثقة للطباعة إلى PDF.","Allow pop-ups to print to PDF.");return;}
-    const text=makePreview().split("\\n").map(line=>"<p>"+escapeText(line)+"</p>").join("");
+    const text=makePreview().split("\n").map(line=>"<p>"+escapeText(line)+"</p>").join("");
     popup.document.write('<!doctype html><html lang="'+(english()?"en":"ar")+'" dir="'+(english()?"ltr":"rtl")+'"><meta charset="utf-8"><title>ATS Resume</title><style>body{font:11pt Arial,Tahoma,sans-serif;line-height:1.55;color:#1d2939;max-width:800px;margin:25mm auto;direction:'+(english()?"ltr":"rtl")+';text-align:'+(english()?"left":"right")+'}p{margin:0 0 5px;white-space:pre-wrap}@page{size:A4;margin:18mm}</style><body>'+text+'</body></html>');
     popup.document.close();popup.focus();setTimeout(()=>popup.print(),300);
   });
