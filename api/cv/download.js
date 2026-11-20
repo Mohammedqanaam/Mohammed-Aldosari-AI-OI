@@ -44,12 +44,12 @@ module.exports = async (req, res) => {
     }
 
     const sectionSpecs = [
-      ["summary","الملخص المهني","Professional Summary"],
+      ["domain","المجال المهني","Professional Field"],\n      ["summary","الملخص المهني","Professional Summary"],
       ["education","التعليم والمؤهلات","Education"],
       ["experience","الخبرات العملية","Work Experience"],
       ["projects","المشاريع والتدريب العملي","Projects & Practical Training"],
       ["achievements","الإنجازات","Key Achievements"],
-      ["technical","المعرفة التخصصية","Specialist Knowledge"],
+      ["technical","المعرفة التخصصية","Specialist Knowledge"],\n      ["technical2","الأدوات والأساليب التخصصية","Specialist Tools & Methods"],\n      ["technical3","المعايير والمتطلبات المهنية","Professional Standards & Requirements"],
       ["tools","الأنظمة والأدوات","Systems & Tools"],
       ["skills","المهارات","Core Skills"],
       ["certifications","الشهادات والتراخيص","Certifications & Licenses"],
