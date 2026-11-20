@@ -1,5 +1,5 @@
 const { paypalRequest } = require("../../lib/paypal");
-const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType } = require("docx");
+const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType } = require("docx");\nconst crypto = require("crypto");
 
 const LABELS = {
   enName:"English Name", contact:"Contact Details", location:"Location", role:"Target Role",
@@ -17,14 +17,14 @@ module.exports = async (req, res) => {
   try {
     const orderID = clean(req.body && req.body.orderID);
     const answers = req.body && req.body.answers;
-    const language = req.body && req.body.language === "en-US" ? "en-US" : "ar-SA";
+    const language = req.body && req.body.language === "en-US" ? "en-US" : "ar-SA";\n    const resumeHash = clean(req.body && req.body.resumeHash);
     if (!/^[A-Z0-9-]{8,80}$/i.test(orderID) || !answers || typeof answers !== "object" || Array.isArray(answers)) {
       return res.status(400).json({ error: "Invalid CV request." });
     }
     const order = await paypalRequest("/v2/checkout/orders/" + encodeURIComponent(orderID), { method: "GET" });
     const unit = order.purchase_units && order.purchase_units[0];
     const capture = unit && unit.payments && unit.payments.captures && unit.payments.captures[0];
-    if (order.status !== "COMPLETED" || !unit || unit.custom_id !== "cv" || !capture || capture.status !== "COMPLETED" ||
+    if (order.status !== "COMPLETED" || !unit || unit.custom_id !== "cv-" + resumeHash || !/^[a-f0-9]{64}$/i.test(resumeHash) || !capture || capture.status !== "COMPLETED" ||
         !capture.amount || capture.amount.currency_code !== "USD" || capture.amount.value !== "5.00") {
       return res.status(403).json({ error: "لم يتم التحقق من دفعة مكتملة بقيمة 5 دولارات لخدمة السيرة الذاتية." });
     }
@@ -33,7 +33,7 @@ module.exports = async (req, res) => {
       return res.status(403).json({ error: "تعذر التحقق من صلاحية الدفعة." });
     }
 
-    const nameAr = clean(answers.nameAr);
+    const digest = crypto.createHash("sha256").update(JSON.stringify({ answers, language })).digest("hex");\n    if (digest !== resumeHash.toLowerCase()) return res.status(403).json({ error: "بيانات السيرة تغيرت بعد الدفع. يجب إتمام طلب دفع جديد للنسخة المعدلة." });\n    const nameAr = clean(answers.nameAr);
     const role = clean(answers.role);
     if (!isArabic(nameAr) || nameAr.split(/\s+/).length < 2 || !role) {
       return res.status(400).json({ error: "الاسم العربي الكامل والمسمى المستهدف مطلوبان." });
