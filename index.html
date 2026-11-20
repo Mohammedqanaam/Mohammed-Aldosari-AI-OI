@@ -122,7 +122,7 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
   <div class="cv-top"><span class="pill" id="cv-step">السؤال 1</span><span class="cv-small" id="cv-progress-label">0%</span></div><div class="cv-progress"><span id="cv-progress-bar"></span></div>
   <div class="cv-question" id="cv-question"></div><p class="cv-small" id="cv-hint">استمع للسؤال ثم تحدث أو اكتب إجابتك.</p>
   <textarea class="cv-answer" id="cv-answer" placeholder="اكتب إجابتك هنا أو استخدم زر الميكروفون..."></textarea>
-  <div class="cv-actions"><button class="btn cv-mic" id="cv-listen" type="button">🎙️ ابدأ التحدث</button><button class="btn" id="cv-speak" type="button">استمع للسؤال</button><button class="btn gold" id="cv-next" type="button">حفظ ومتابعة</button><button class="btn" id="cv-skip" type="button" style="background:#65758b">تخطي</button></div>
+  <div class="cv-actions"><button class="btn cv-mic" id="cv-listen" type="button">🎙️ ابدأ التحدث</button><button class="btn" id="cv-speak" type="button">استمع للسؤال</button><button class="btn" id="cv-prev" type="button" disabled>السابق</button><button class="btn gold" id="cv-next" type="button">حفظ ومتابعة</button><button class="btn" id="cv-skip" type="button" style="background:#65758b">تخطي</button></div>
   <p class="cv-small" id="cv-voice-status" aria-live="polite">الميكروفون غير نشط.</p>
  </div>
  <div class="cv-card cv-hidden" id="cv-result"><div class="cv-top"><b style="color:#142b4a">مسودة سيرتك الذاتية</b><span class="pill">قابلة للمراجعة</span></div>
@@ -279,6 +279,25 @@ async function initializePayPal(){
     onCancel:()=>status(document.getElementById("paymentStatus"),"تم إلغاء عملية الدفع. يمكنك المحاولة مجدداً.","warn"),
     onError:(err)=>{console.error(err);status(document.getElementById("paymentStatus"),"تعذر إكمال الدفع. حاول مرة أخرى أو تواصل مع الدعم.","err");}
    }).render("#paypal-button-container");
+   const cvContainer=document.getElementById("cv-paypal-button-container");
+   if(cvContainer && window.CVResume){
+    paypal.Buttons({
+     style:{layout:"vertical",color:"gold",shape:"rect",label:"pay",height:45},
+     createOrder:async()=>{
+      const r=await fetch("/api/paypal/create-order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({templateId:"cv"})});
+      const d=await r.json();if(!r.ok||!d.id)throw new Error(d.error||"تعذر إنشاء طلب الدفع.");return d.id;
+     },
+     onApprove:async(data)=>{
+      try{
+       const r=await fetch("/api/paypal/capture-order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({orderID:data.orderID,templateId:"cv"})});
+       const d=await r.json();if(!r.ok||!d.paid)throw new Error(d.error||"لم يتم تأكيد الدفع.");
+       window.CVResume.unlock(d.orderID);
+      }catch(e){const el=document.getElementById("cv-payment-status");el.textContent=e.message;el.className="status err";}
+     },
+     onCancel:()=>{const el=document.getElementById("cv-payment-status");el.textContent="تم إلغاء الدفع. يمكنك المحاولة مجدداً.";el.className="status warn";},
+     onError:(e)=>{console.error(e);const el=document.getElementById("cv-payment-status");el.textContent="تعذر إكمال الدفع. حاول مجدداً.";el.className="status err";}
+    }).render("#cv-paypal-button-container");
+   }
   };
   sdk.onerror=()=>status(document.getElementById("paymentStatus"),"تعذر تحميل بوابة PayPal.","err");
   document.head.appendChild(sdk);
