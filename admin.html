@@ -41,6 +41,7 @@ button{border:0;border-radius:10px;padding:12px 18px;background:var(--navy);colo
 <p id="empty" class="muted hidden">لا توجد سجلات مطابقة.</p><p class="muted">السلة المتروكة تقدير تشغيلي مبني على عدم استكمال الطلب، وليست دليلاً على إتمام الشراء.</p>
 </div>
 </section>
+<section id="supportInbox" class="hidden" style="margin-top:22px"><div class="card"><h2>محادثات العملاء</h2><p class="muted">مركز الدعم المباشر — أنت تتابع الرسائل وترد على العملاء من هنا.</p><div class="toolbar"><button id="supportRefresh" class="secondary">تحديث المحادثات</button></div><div style="display:grid;grid-template-columns:minmax(220px,1fr) 2fr;gap:14px"><div id="supportThreads"></div><div><div id="adminMessages" style="min-height:220px;max-height:420px;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:12px">اختر محادثة لعرض الرسائل.</div><textarea id="adminReply" class="field" rows="3" placeholder="اكتب ردك للعميل..."></textarea><button id="adminSendReply">إرسال الرد</button></div></div></div></section>
 </main>
 <script>
 const $=id=>document.getElementById(id);let leads=[],supportThreads=[],activeSupportId=null;
@@ -54,6 +55,23 @@ function esc(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",
 $("loginForm").addEventListener("submit",async e=>{e.preventDefault();$("loginError").textContent="";try{const r=await fetch("/api/admin/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:$("password").value})});const d=await r.json();if(!r.ok)throw Error(d.error||"تعذر تسجيل الدخول");$("login").classList.add("hidden");$("dashboard").classList.remove("hidden");$("password").value="";await load()}catch(e){$("loginError").textContent=e.message}});
 $("logout").onclick=async()=>{await fetch("/api/admin/logout",{method:"POST"});$("dashboard").classList.add("hidden");$("login").classList.remove("hidden")};
 $("refresh").onclick=()=>load().catch(e=>alert(e.message));$("search").oninput=render;$("filter").onchange=render;
+
+
+async function loadSupport(){
+ const r=await fetch("/api/admin/support",{cache:"no-store"});if(!r.ok)throw Error("تعذر تحميل محادثات الدعم");
+ const d=await r.json();supportThreads=d.conversations||[];
+ $("supportThreads").innerHTML=supportThreads.map(t=>"<button type='button' class='secondary' data-support-id='"+esc(t.id)+"' style='display:block;width:100%;text-align:right;margin-bottom:7px'><b>"+esc(t.customer_name)+"</b><br><small>"+esc(t.email)+" • "+date(t.last_message_at)+"</small></button>").join("")||"<p class='muted'>لا توجد محادثات حتى الآن.</p>";
+ $("supportThreads").querySelectorAll("[data-support-id]").forEach(b=>b.onclick=()=>openAdminThread(b.dataset.supportId));
+}
+async function openAdminThread(id){
+ activeSupportId=id;
+ const r=await fetch("/api/admin/support?id="+encodeURIComponent(id),{cache:"no-store"});
+ const d=await r.json();if(!r.ok){$("adminMessages").textContent=d.error||"تعذر تحميل الرسائل";return;}
+ $("adminMessages").innerHTML=(d.messages||[]).map(m=>"<div style='margin:8px 0;padding:10px;border-radius:10px;background:"+(m.sender==="admin"?"#e7f3f2":"#f1f4f7")+"'><b>"+(m.sender==="admin"?"أنت — الدعم":"العميل")+"</b><p style='white-space:pre-wrap;margin:5px 0'>"+esc(m.body)+"</p><small>"+date(m.created_at)+"</small></div>").join("");
+ $("adminMessages").scrollTop=$("adminMessages").scrollHeight;
+}
+$("supportRefresh").onclick=()=>loadSupport().catch(e=>alert(e.message));
+$("adminSendReply").onclick=async()=>{const message=$("adminReply").value.trim();if(!activeSupportId||!message)return;const r=await fetch("/api/admin/support",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:activeSupportId,message})});const d=await r.json();if(!r.ok){alert(d.error||"تعذر إرسال الرد");return;}$("adminReply").value="";await openAdminThread(activeSupportId);loadSupport();};
 
 </script>
 </body></html>
