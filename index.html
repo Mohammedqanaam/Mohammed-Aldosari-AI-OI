@@ -310,6 +310,7 @@ async function initializePayPal(){
  }catch(e){
   container.innerHTML='<button class="btn gold" type="button" disabled style="width:100%">الدفع غير متاح حالياً</button>';
   status(document.getElementById("paymentStatus"),e.message,"warn");
+  const cvStatus=document.getElementById("cv-payment-status");if(cvStatus){cvStatus.textContent="بوابة الدفع غير مفعّلة حالياً. لن يتم فتح التنزيل حتى تفعيل PayPal.";cvStatus.className="status warn";}
  }
 }
 initializePayPal();
