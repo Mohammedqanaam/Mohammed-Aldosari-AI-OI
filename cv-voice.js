@@ -113,7 +113,7 @@
     const a = answers;
     const contact = [a.contact,a.location].filter(Boolean).join(" | ");
     let out = [a.nameAr,a.enName,a.role,contact].filter(Boolean).join("\n") + "\n\n";
-    out += section("الملخص المهني","PROFESSIONAL SUMMARY",a.summary);
+    out += section("المجال المهني","PROFESSIONAL FIELD",a.domain);\n    out += section("الملخص المهني","PROFESSIONAL SUMMARY",a.summary);
     out += section("الخبرات العملية","WORK EXPERIENCE",a.experience);
     out += section("التعليم والمؤهلات","EDUCATION",a.education);
     out += section("المشاريع والتدريب العملي","PROJECTS & PRACTICAL TRAINING",a.projects);
@@ -148,7 +148,7 @@
     }
     if (!domain) { $("cv-domain").focus(); alert("يرجى اختيار مجال التخصص أولاً."); return; }
     lang = $("cv-language").value;
-    answers = {nameAr:name,role:$("cv-target-role").value.trim()};
+    answers = {nameAr:name,role:$("cv-target-role").value.trim(),domain:$("cv-domain").selectedOptions[0].textContent};
     const selected = [...common];
     const specific = domains[domain] || domains.other;
     specific.forEach(([id,ar,en]) => selected.push([id,ar,en]));
@@ -176,7 +176,7 @@
   });
   $("cv-next").addEventListener("click",()=>move(1));
   $("cv-prev").addEventListener("click",()=>move(-1));
-  $("cv-skip").addEventListener("click",()=>{answers[qs[idx].id]="";move(1);});
+  $("cv-skip").addEventListener("click",()=>{$("cv-answer").value="";move(1);});
   $("cv-edit").addEventListener("click",()=>{$("cv-result").classList.add("cv-hidden");$("cv-interview").classList.remove("cv-hidden");idx=qs.length-1;render();$("cv-interview").scrollIntoView({behavior:"smooth"});});
   $("cv-restart").addEventListener("click",()=>{if(speechSynthesis)speechSynthesis.cancel();$("cv-result").classList.add("cv-hidden");$("cv-interview").classList.add("cv-hidden");$("cv-intro").classList.remove("cv-hidden");paid=false;});
   $("cv-download-docx").addEventListener("click",async()=>{
