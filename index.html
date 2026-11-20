@@ -324,7 +324,7 @@ async function initializePayPal(){
      style:{layout:"vertical",color:"gold",shape:"rect",label:"pay",height:45},
      createOrder:async()=>{
       const payload=await window.CVResume.getPaymentPayload();
-      const r=await fetch("/api/paypal/create-order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({templateId:"cv",...payload})});
+      const r=await fetch("/api/paypal/create-order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({templateId:"cv",leadId:window.cvLeadId,...payload})});
       const d=await r.json();if(!r.ok||!d.id)throw new Error(d.error||"تعذر إنشاء طلب الدفع.");return d.id;
      },
      onApprove:async(data)=>{
