@@ -157,20 +157,21 @@
     if (!dataConsent) { $("cv-data-consent").focus(); alert("الموافقة على معالجة البيانات مطلوبة للمتابعة."); return; }
     lang = $("cv-language").value;
     answers = {nameAr:name,role:$("cv-target-role").value.trim(),domain:$("cv-domain").selectedOptions[0].textContent,phone,email,contact:[phone,email].join(" | ")};
+    // بدء المقابلة مستقل عن توفر قاعدة بيانات الإدارة؛ لا نوقف العميل بسبب عطل التسجيل.
     window.cvLeadId = null;
-    const saveButton=$("cv-start"); saveButton.disabled=true; saveButton.textContent="جارٍ حفظ بيانات الطلب...";
+    const saveButton=$("cv-start");
+    saveButton.disabled=true;
+    saveButton.textContent="جارٍ تجهيز المقابلة...";
     try {
       const saved=await fetch("/api/leads",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({nameAr:name,phone,email,dataConsent})});
       const result=await saved.json();
-      if(!saved.ok) throw new Error(result.error||"تعذر حفظ بيانات الطلب.");
-      window.cvLeadId=result.id||null;
-      if(!window.cvLeadId) throw new Error("لم يصل رقم الطلب من الخادم.");
+      if(saved.ok && result.id) window.cvLeadId=result.id;
+      else console.warn("Lead registration unavailable; interview continues.",result.error||"No lead id returned");
     } catch(error) {
-      saveButton.disabled=false; saveButton.textContent="ابدأ المقابلة";
-      alert("تعذر حفظ الطلب. لم تبدأ المقابلة حتى لا تضيع بياناتك.\n"+error.message);
-      return;
+      console.warn("Lead registration unavailable; interview continues.",error);
     }
-    saveButton.disabled=false; saveButton.textContent="ابدأ المقابلة";
+    saveButton.disabled=false;
+    saveButton.textContent="ابدأ المقابلة";
     const selected = [...common];
     const specific = domains[domain] || domains.other;
     specific.forEach(([id,ar,en]) => selected.push([id,ar,en]));
