@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>لوحة الإدارة | إدارة العملاء</title>
+<style>
+:root{--bg:#f3f6f8;--navy:#152a43;--teal:#167c80;--gold:#c6a15b;--ink:#243447;--muted:#6c7a89;--line:#e1e7ed;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Tahoma,Arial,sans-serif;color:var(--ink);line-height:1.6}
+header{background:linear-gradient(120deg,#10243d,#21445c);color:#fff;padding:22px 5vw}
+header b{font-size:20px}header span{display:block;color:#c8d8e3;font-size:12px}
+main{max-width:1180px;margin:34px auto;padding:0 18px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 10px 30px #152a430a}
+.login{max-width:420px;margin:10vh auto}.field{width:100%;padding:13px;border:1px solid #ccd6df;border-radius:10px;font:inherit;margin:8px 0 14px}
+button{border:0;border-radius:10px;padding:12px 18px;background:var(--navy);color:#fff;font:inherit;cursor:pointer}button.secondary{background:#e9eff3;color:var(--navy)}
+.hidden{display:none!important}.muted{color:var(--muted);font-size:13px}.error{color:#a32d36;font-size:13px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}.stat small{color:var(--muted)}.stat b{display:block;font-size:25px;color:var(--navy)}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:16px 0}.toolbar input,.toolbar select{padding:10px;border:1px solid var(--line);border-radius:9px;font:inherit;background:#fff}
+.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:800px;font-size:13px}th,td{padding:12px;text-align:right;border-bottom:1px solid var(--line)}th{color:#526477;background:#f8fafb}
+.pill{display:inline-block;padding:4px 9px;border-radius:20px;background:#edf2f6;color:#42576b;font-size:11px}.paid{background:#e5f4ed;color:#206344}.abandoned{background:#fff2df;color:#8c5c16}.consent{color:#167c80;font-weight:700}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}header{padding:18px}}
+</style>
+</head>
+<body>
+<header><b>لوحة الإدارة</b><span>إدارة بيانات العملاء ومتابعة الطلبات</span></header>
+<main>
+<section id="login" class="card login">
+<h2>تسجيل دخول الإدارة</h2><p class="muted">هذه المنطقة مخصصة للمخولين فقط.</p>
+<form id="loginForm"><label for="password">كلمة المرور</label><input class="field" id="password" type="password" autocomplete="current-password" required minlength="16"><button type="submit">دخول آمن</button></form>
+<p id="loginError" class="error" aria-live="polite"></p>
+</section>
+<section id="dashboard" class="hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><div><h1 style="margin:0;color:var(--navy)">العملاء والطلبات</h1><p class="muted">تظهر بيانات التواصل التي وافق أصحابها على حفظها فقط.</p></div><button id="logout" class="secondary">تسجيل الخروج</button></div>
+<div class="stats">
+<div class="stat"><small>إجمالي العملاء</small><b id="total">0</b></div>
+<div class="stat"><small>طلبات بدأت</small><b id="started">0</b></div>
+<div class="stat"><small>سلات متروكة تقديرياً</small><b id="abandoned">0</b></div>
+<div class="stat"><small>موافقات تسويقية</small><b id="marketing">0</b></div>
+</div>
+<div class="card">
+<div class="toolbar"><input id="search" placeholder="بحث بالاسم أو الجوال أو البريد"><select id="filter"><option value="all">كل الحالات</option><option value="started">بدأ التسجيل</option><option value="abandoned">متروكة تقديرياً</option><option value="paid">مدفوعة</option><option value="marketing">موافقة تسويقية</option></select><button id="refresh" class="secondary">تحديث</button></div>
+<div class="tablewrap"><table><thead><tr><th>الاسم</th><th>الجوال</th><th>البريد</th><th>الحالة</th><th>التسويق</th><th>تاريخ التسجيل</th></tr></thead><tbody id="rows"></tbody></table></div>
+<p id="empty" class="muted hidden">لا توجد سجلات مطابقة.</p><p class="muted">لا ترسل أي رسالة تسويقية إلا للعملاء الذين لديهم موافقة تسويقية موثقة وسارية. السلة المتروكة هنا تقدير تشغيلي وليست إذناً بالتسويق.</p>
+</div>
+</section>
+</main>
+<script>
+const $=id=>document.getElementById(id);let leads=[];
+const date=v=>v?new Date(v).toLocaleString("ar-SA"):"—";
+async function load(){const r=await fetch("/api/admin/leads",{cache:"no-store"});if(r.status===401){$("dashboard").classList.add("hidden");$("login").classList.remove("hidden");return}const d=await r.json();if(!r.ok)throw Error(d.error||"تعذر التحميل");leads=d.leads||[];render()}
+function render(){const marketing=leads.filter(x=>x.marketing_consent);$("total").textContent=leads.length;$("started").textContent=leads.filter(x=>x.pipeline_status==="started").length;$("abandoned").textContent=leads.filter(x=>x.pipeline_status==="abandoned").length;$("marketing").textContent=marketing.length;
+const q=$("search").value.trim().toLowerCase(),f=$("filter").value;
+const list=leads.filter(x=>{const hay=[x.name_ar,x.phone,x.email].join(" ").toLowerCase();return (!q||hay.includes(q))&&(f==="all"|| (f==="marketing"?x.marketing_consent:x.pipeline_status===f))});
+$("rows").innerHTML=list.map(x=>{const status=x.pipeline_status==="abandoned"?"سلة متروكة تقديرياً":x.pipeline_status==="paid"?"مدفوع":"بدأ التسجيل";const cls=x.pipeline_status==="abandoned"?"abandoned":x.pipeline_status==="paid"?"paid":"";return "<tr><td>"+esc(x.name_ar)+"</td><td>"+esc(x.phone||"—")+"</td><td>"+esc(x.email||"—")+"</td><td><span class='pill "+cls+"'>"+status+"</span></td><td>"+(x.marketing_consent?"<span class='consent'>موافق</span>":"غير موافق")+"</td><td>"+date(x.created_at)+"</td></tr>"}).join("");$("empty").classList.toggle("hidden",list.length>0)}
+function esc(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+$("loginForm").addEventListener("submit",async e=>{e.preventDefault();$("loginError").textContent="";try{const r=await fetch("/api/admin/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:$("password").value})});const d=await r.json();if(!r.ok)throw Error(d.error||"تعذر تسجيل الدخول");$("login").classList.add("hidden");$("dashboard").classList.remove("hidden");$("password").value="";await load()}catch(e){$("loginError").textContent=e.message}});
+$("logout").onclick=async()=>{await fetch("/api/admin/logout",{method:"POST"});$("dashboard").classList.add("hidden");$("login").classList.remove("hidden")};
+$("refresh").onclick=()=>load().catch(e=>alert(e.message));$("search").oninput=render;$("filter").onchange=render;
+</script>
+</body></html>
