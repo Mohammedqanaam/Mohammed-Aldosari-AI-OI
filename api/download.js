@@ -203,7 +203,7 @@ async function buildWorkbook(templateId) {
   } else if (templateId === "guestservice") {
     kpis.push(["Total cases | إجمالي الحالات",{formula:"COUNTA(" + dataRef + "!A2:A" + last + ")"}]);
     kpis.push(["Closed cases | المغلقة",{formula:'COUNTIF(' + dataRef + '!J2:J' + last + ',"*مغلق*")'}]);
-    kpis.push(["Open cases | المفتوحة",{formula:'COUNTIF(' + dataRef + '!J2:J' + last + ',"<>*مغلق*")'}]);
+    kpis.push(["Open cases | المفتوحة",{formula:'COUNTIFS(' + dataRef + '!A2:A' + last + ',"<>",' + dataRef + '!J2:J' + last + ',"<>*مغلق*")'}]);
   } else {
     kpis.push(["Amount total | إجمالي القيمة",{formula:"SUM(" + dataRef + "!G2:G" + last + ")"}]);
   }
@@ -246,6 +246,10 @@ module.exports = async (req, res) => {
       amount.value !== "5.00"
     ) {
       return res.status(403).json({ error: "Payment could not be verified for this template." });
+    }
+    const verifiedCapture = await paypalRequest("/v2/payments/captures/" + encodeURIComponent(capture.id), { method: "GET" });
+    if (verifiedCapture.status !== "COMPLETED" || !verifiedCapture.amount || verifiedCapture.amount.currency_code !== "USD" || verifiedCapture.amount.value !== "5.00") {
+      return res.status(403).json({ error: "The payment is no longer eligible for file delivery." });
     }
     const wb = await buildWorkbook(templateId);
     const buffer = await wb.xlsx.writeBuffer();
